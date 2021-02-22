@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 class AddressResult extends React.Component {
 

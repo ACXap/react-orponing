@@ -1,8 +1,8 @@
 import React from "react";
-import ProcessingOrponing from "../components/ProcessingOrponing.js";
-import FileResult from "../components/FileResult.js";
-import ServiceOrponingClipboard from "../services/ServiceOrponingClipboard.js";
-import PreviewOrponing from "../components/PreviewOrponing.js";
+import ProcessingOrponing from "./ProcessingOrponing.js";
+import FileResult from "./FileResult.js";
+import ServiceOrponingClipboard from "../../services/ServiceOrponingClipboard.js";
+import PreviewOrponing from "./PreviewOrponing.js";
 
 export default class FormClipboard extends React.Component {
     constructor({ notifyError }) {

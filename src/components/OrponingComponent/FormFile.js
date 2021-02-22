@@ -1,10 +1,10 @@
 import React from "react";
-import ProcessingOrponing from "../components/ProcessingOrponing.js";
-import FileResult from "../components/FileResult.js";
-import ServiceOrponingFile from "../services/ServiceOrponingFile.js";
-import PreviewOrponing from "../components/PreviewOrponing.js";
+import ProcessingOrponing from "./ProcessingOrponing.js";
+import FileResult from "./FileResult.js";
+import ServiceOrponingFile from "../../services/ServiceOrponingFile.js";
+import PreviewOrponing from "./PreviewOrponing.js";
 
-class FormFile extends React.Component {
+export default class FormFile extends React.Component {
 
     constructor({ notifyError }) {
         super();
@@ -104,5 +104,3 @@ class FormFile extends React.Component {
         )
     }
 }
-
-export default FormFile

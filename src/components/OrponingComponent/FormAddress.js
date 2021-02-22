@@ -1,7 +1,7 @@
 import React from "react";
-import ServiceOrponingAddress from "../services/ServiceOrponingAddress.js";
-import AddressResult from "../components/AddressResult.js";
-import ProcessingOrponing from "../components/ProcessingOrponing.js";
+import ServiceOrponingAddress from "../../services/ServiceOrponingAddress.js";
+import AddressResult from "./AddressResult.js";
+import ProcessingOrponing from "./ProcessingOrponing.js";
 
 class FormAddress extends React.Component {
 
