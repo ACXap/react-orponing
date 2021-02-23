@@ -9,21 +9,33 @@ class Api {
     }
 
     async apiClearArchive(password) {
-        return { status: "COMPLETED" }
+        if (password === "yes") return { status: "COMPLETED" }
+        return { status: "ERROR", message: "Error password" }
+    }
+
+    async apiGetAllLogs() {
+        return ["2021-02-10.0", "2021-02-11.0", "2021-02-13.0", "2021-02-14.0", "2021-02-10.0", "2021-02-11.0", "2021-02-13.0", "2021-02-14.0", "2021-02-10.0", "2021-02-11.0", "2021-02-13.0", "2021-02-14.0"];
     }
 
     async apiGetListServices() {
-        return [{ id: "service-test1", icon: "server", name: "Service1", description: "Test1" }, { id: "service-test2", icon: "server", name: "Service2", description: "Test2" }, { id: "service-test3", icon: "server", name: "Service3", description: "Test3" }];
+        return [
+            { id: "service-test1", icon: "server", name: "Service1", description: "Test1" },
+            { id: "service-test2", icon: "db", name: "Service2", description: "Test2" },
+            { id: "service-test3", icon: "server", name: "Service3", description: "Test3" },
+            { id: "service-test3", icon: "server", name: "Service3", description: "Test3", isStartable: true }
+        ];
     }
 
     async apiStartService(id) {
-        // const response = await fetch(`/orponing_service/${id}/start`);
-        // return _getJson(response);
-        return null;
+        if (id === "service-test2") return { idService: id, status: "ERROR", message: "Test", dateStatus: new Date() }
+
+        return { idService: id, status: "START", message: "Test", dateStatus: new Date() }
     }
 
     async apiGetStatusService(id) {
-        return { idService: id, status: "START", message: "Test", date: "20210101" }
+        if (id === "service-test2") return { idService: id, status: "ERROR", message: "Test", dateStatus: new Date() }
+
+        return { idService: id, status: "START", message: "Test", dateStatus: new Date() }
     }
 
     async apiOrponingAddress(address) {
@@ -35,7 +47,7 @@ class Api {
     }
 
     async apiGetStatusTask(id) {
-        return { status: "COMPLETED" }
+        return { status: "COMPLETED", message: "Завершено", dateStatus: new Date() }
     }
 
     async apiGetResultTask(id) {

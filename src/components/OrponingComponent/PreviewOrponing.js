@@ -11,7 +11,7 @@ export default class PreviewOrponing extends React.Component {
 
     render() {
         return (
-            <div className="preview">
+            <div className="preview p-5">
                 <h5 className="text-center">Предварительный обзор данных для обработки (первые 10 записей)</h5>
                 <div className="container">
                     <div className="row border">
@@ -20,17 +20,10 @@ export default class PreviewOrponing extends React.Component {
                     </div>
                     {this.state.list.map(element => {
                         const result = parseInt(element.Id);
-                        const title = result ? "" : "Идентификатор должен быть числом";
-
-                        const styles = {
-                            div: {
-                                color: result ? "" : "bg-danger"
-                            }
-                        };
-
                         return (
                             <div className="row border" key={element.Id}>
-                                <div className="col-2 border-end" style={styles.div} title={title}>{element.Id}</div>
+                                <div className="col-2 border-end" style={{ color: result ? "" : "bg-danger" }}
+                                    title={result ? "" : "Идентификатор должен быть числом"}>{element.Id}</div>
                                 <div className="col-10">{element.Address}</div>
                             </div>
                         )

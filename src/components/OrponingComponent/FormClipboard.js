@@ -1,5 +1,5 @@
 import React from "react";
-import ProcessingOrponing from "./ProcessingOrponing.js";
+import ProcessingOrponing from "../ProcessingOrponing.js";
 import FileResult from "./FileResult.js";
 import ServiceOrponingClipboard from "../../services/ServiceOrponingClipboard.js";
 import PreviewOrponing from "./PreviewOrponing.js";
@@ -19,6 +19,7 @@ export default class FormClipboard extends React.Component {
     }
 
     async orponing() {
+
         const { countRow } = this.state;
         if (countRow === 0) return;
 
@@ -59,15 +60,17 @@ export default class FormClipboard extends React.Component {
     }
 
     render() {
+        console.log("rend formClipboard");
         return (
             <div id="div-form-clipboard">
-                <div className="d-flex p-2">
+                <div className="d-flex p-5">
                     <button className="btn btn-primary" type="button" id="input-clipboard" onClick={() => this.initListAddress()}>Вставить данные из буфера
                                 обмена</button>
                     <button className="btn btn-primary ms-auto start" type="button"
                         id="orponing-clipboard" onClick={() => this.orponing()}>Орпонизируй меня полностью</button>
                 </div>
                 <div className="count-address px-2">Всего записей: {this.state.countRow}</div>
+
                 { this.state.processing ? <ProcessingOrponing message="Обработка запроса..." /> : ""}
                 { this.state.resultFile ? <FileResult result={this.state.resultFile} /> : ""}
                 { this.state.isShowPreview ? <PreviewOrponing list={this.state.previewList} /> : ""}

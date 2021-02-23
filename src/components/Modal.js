@@ -20,7 +20,9 @@ export default class Modal extends React.Component {
             div: {
                 position: "fixed",
                 left: 0,
-                right: 0
+                right: 0,
+                top: "10rem",
+                zIndex: 1000
             }
         }
         return (

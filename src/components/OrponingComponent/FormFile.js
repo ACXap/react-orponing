@@ -1,5 +1,5 @@
 import React from "react";
-import ProcessingOrponing from "./ProcessingOrponing.js";
+import ProcessingOrponing from "../ProcessingOrponing.js";
 import FileResult from "./FileResult.js";
 import ServiceOrponingFile from "../../services/ServiceOrponingFile.js";
 import PreviewOrponing from "./PreviewOrponing.js";
@@ -86,9 +86,10 @@ export default class FormFile extends React.Component {
     }
 
     render() {
+        console.log("rend formFile");
         return (
             <div id="div-form-file">
-                <div className="input-group p-2">
+                <div className="input-group p-5">
                     <input className="form-control" type="file" id="input-file"
                         onDrop={e => this.ondrop(e)}
                         onDragLeave={e => this.ondragleave(e)}

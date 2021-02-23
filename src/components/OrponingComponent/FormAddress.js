@@ -1,7 +1,7 @@
 import React from "react";
 import ServiceOrponingAddress from "../../services/ServiceOrponingAddress.js";
 import AddressResult from "./AddressResult.js";
-import ProcessingOrponing from "./ProcessingOrponing.js";
+import ProcessingOrponing from "../ProcessingOrponing.js";
 
 class FormAddress extends React.Component {
 
@@ -33,7 +33,7 @@ class FormAddress extends React.Component {
         console.log("rend formAddress");
         return (
             <div id="div-form-address">
-                <div className="input-group p-2">
+                <div className="input-group p-5">
                     <input type="text" className="form-control" placeholder="Адрес" id="input-address" />
                     <button className="btn btn-primary start" disabled={this.state.processing} type="button" id="orponing-address" onClick={() => this.orponing()}>Орпонизируй меня полностью</button>
                 </div>

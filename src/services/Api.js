@@ -41,6 +41,14 @@ export default class Api {
         return this._getText(response);
     }
 
+    async apiGetAllLogs() {
+        const response = await fetch("/log/files", {
+            method: 'GET',
+            headers: this._getHeadersPost()
+        });
+        return this._getJson(response);
+    }
+
     async apiClearArchive(password) {
         const response = await fetch("/log/clear?password=" + password);
         return this._getJson(response);

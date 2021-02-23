@@ -1,10 +1,10 @@
 import React from "react";
 
 export default class ProcessingOrponing extends React.Component {
-    constructor(props) {
+    constructor({ message }) {
         super();
 
-        this.message = props.message;
+        this.message = message;
     }
 
     render() {
@@ -15,6 +15,6 @@ export default class ProcessingOrponing extends React.Component {
                     <div className="spinner-grow text-primary" role="status"></div>
                 </div>
             </div>
-        )
+        );
     }
 }
