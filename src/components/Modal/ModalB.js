@@ -9,7 +9,7 @@ export default class ModalB extends React.Component {
 
     render() {
         return (
-            <Modal show={this.props.isShow}>
+            <Modal show={this.props.isShow} animation={false}>
                 <Modal.Header>
                     <Modal.Title>{this.props.title}</Modal.Title>
                 </Modal.Header>
@@ -24,7 +24,7 @@ export default class ModalB extends React.Component {
     }
 }
 
-Modal.propTypes = {
+ModalB.propTypes = {
     onClose: PropTypes.func.isRequired,
     message: PropTypes.string.isRequired,
     isShow: PropTypes.bool.isRequired,

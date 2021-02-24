@@ -1,41 +1,46 @@
 import React from "react";
-import ServiceOrponingAddress from "../../services/ServiceOrponingAddress.js";
-import AddressResult from "./AddressResult.js";
-import ProcessingOrponing from "../ProcessingOrponing.js";
+import ServiceOrponingAddress from "../../services/ServiceOrponingAddress";
+import AddressResult from "./AddressResult";
+import ProcessingOrponing from "../ProcessingOrponing";
+import history from '../../history';
 
 class FormAddress extends React.Component {
-
     constructor({ notifyError }) {
         super();
         this.state = {
-            resultAddress: null,
-            processing: false,
-            notifyError: notifyError
+            resultAddress: history.location.resultAddress,
+            requestAddress: history.location.resultAddress?.requestAddress,
+            processing: false
         }
+
+        this.notifyError = notifyError;
     }
 
     async orponing() {
         try {
-            const address = document.querySelector("#input-address").value;
-
-            if (address) {
+            const address = this.state.requestAddress;
+            if (this.state.requestAddress) {
                 this.setState({ processing: true });
                 const json = await ServiceOrponingAddress.orponing(address);
+                json.requestAddress = address;
                 this.setState({ resultAddress: json, processing: false });
+
+                history.push({ resultAddress: json });
             }
         } catch (e) {
-            this.setState({ processing: false });
-            this.state.notifyError(e.message);
+            this.setState({ processing: false, resultAddress: null });
+            this.notifyError(e.message, "Ошибка орпонизации адреса");
         }
     }
 
     render() {
-        console.log("rend formAddress");
         return (
-            <div id="div-form-address">
+            <div>
                 <div className="input-group p-5">
-                    <input type="text" className="form-control" placeholder="Адрес" id="input-address" />
-                    <button className="btn btn-primary start" disabled={this.state.processing} type="button" id="orponing-address" onClick={() => this.orponing()}>Орпонизируй меня полностью</button>
+                    <input type="text" className="form-control" placeholder="Адрес" defaultValue={this.state.requestAddress}
+                        onChange={(e) => this.setState({ requestAddress: e.target.value })} />
+                    <button className="btn btn-primary" disabled={this.state.processing} type="button"
+                        onClick={() => this.orponing()}>Орпонизируй меня полностью</button>
                 </div>
                 {this.state.processing ? <ProcessingOrponing message="Обработка запроса..." /> : ""}
                 {this.state.resultAddress ? <AddressResult result={this.state.resultAddress} /> : ""}

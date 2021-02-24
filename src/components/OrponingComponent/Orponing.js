@@ -37,16 +37,16 @@ export default class Orponing extends React.Component {
                     <div className="tab-panel p-2">
                         <TabControl onChangeTab={(e) => this.changeTab(e)} lastTab={this.state.lastTab} />
                         <div style={this.getStyleShowTab("tab-orponing-address")}>
-                            <FormAddress notifyError={(m) => this.state.notifyError(m)} />
+                            <FormAddress notifyError={(m, t) => this.state.notifyError(m, t)} />
                         </div>
                         <div style={this.getStyleShowTab("tab-orponing-file")}>
-                            <FormFile notifyError={(m) => this.state.notifyError(m)} />
+                            <FormFile notifyError={(m, t) => this.state.notifyError(m, t)} />
                         </div>
                         <div style={this.getStyleShowTab("tab-orponing-clipboard")}  >
-                            <FormClipboard notifyError={(m) => this.state.notifyError(m)} />
+                            <FormClipboard notifyError={(m, t) => this.state.notifyError(m, t)} />
                         </div>
                         <div style={this.getStyleShowTab("tab-orponing-history")}  >
-                            <History notifyError={(m) => this.state.notifyError(m)} />
+                            <History notifyError={(m, t) => this.state.notifyError(m, t)} />
                         </div>
                     </div>
                 </div>

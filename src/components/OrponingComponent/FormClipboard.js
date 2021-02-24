@@ -60,7 +60,6 @@ export default class FormClipboard extends React.Component {
     }
 
     render() {
-        console.log("rend formClipboard");
         return (
             <div id="div-form-clipboard">
                 <div className="d-flex p-5">

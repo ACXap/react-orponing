@@ -3,44 +3,41 @@ import Orponing from "./components/OrponingComponent/Orponing.js";
 import About from "./components/AboutComponent/About.js";
 import Log from "./components/LogComponent/Log.js"
 import OrponingService from "./components/OrponingServiceComponent/OrponingService.js";
-import Modal from "./components/Modal/Modal.js";
+import ModalB from "./components/Modal/ModalB.js";
 import NavControlB from "./components/NavControlB.js";
-import { BrowserRouter, Route } from "react-router-dom";
+import { Route, BrowserRouter } from "react-router-dom";
+import history from './history';
 
 export default class App extends React.Component {
-
-    constructor() {
-        super();
-        this.state = {
-            lastPage: "page-orponing"
-        }
+    constructor(props) {
+        super(props);
+        this.state = { modal: this.createModal(false, "", "") }
     }
 
-    openPage(e) {
-        this.setState({ lastPage: e });
+    openModal(message, title) {
+        this.setState({ modal: this.createModal(true, message, title) });
     }
 
-    notifyError(message, title) {
-        this.setState({ messageModal: message, isShow: true, title: title });
-    }
-
-    closeModal() {
-        this.setState({ messageModal: "", isShow: false, title: "" });
+    createModal(isShow, message, title) {
+        return { isShow, message, title }
     }
 
     render() {
+        const { isShow, message, title } = this.state.modal
         return (
-            <BrowserRouter>
-                <NavControlB />
-                <Modal isShow={this.state.isShow}
-                    message={this.state.messageModal}
-                    title={this.state.title}
-                    onClose={() => this.closeModal()} />
-                <Route exact path="/" render={() => <Orponing notifyError={(m) => this.notifyError(m)} />} />
-                <Route path="/about" render={() => <About notifyError={(m) => this.notifyError(m)} />} />
-                <Route path="/log" render={() => <Log notifyError={(m) => this.notifyError(m)} />} />
-                <Route path="/orponing-service" render={() => <OrponingService notifyError={(m) => this.notifyError(m)} />} />
-            </BrowserRouter>
+            <div>
+                <ModalB isShow={isShow}
+                    message={message}
+                    title={title}
+                    onClose={() => this.setState({ modal: this.createModal(false, "", "") })} />
+                <BrowserRouter>
+                    <NavControlB />
+                    <Route exact path="/" render={() => <Orponing notifyError={(m, t) => this.openModal(m, t)} />} />
+                    <Route path="/about" render={() => <About notifyError={(m, t) => this.openModal(m, t)} />} />
+                    <Route path="/log" render={() => <Log notifyError={(m, t) => this.openModal(m, t)} />} />
+                    <Route path="/orponing-service" render={() => <OrponingService notifyError={(m, t) => this.openModal(m, t)} />} />
+                </BrowserRouter >
+            </div >
         );
     }
 }

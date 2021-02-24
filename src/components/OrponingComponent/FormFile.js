@@ -28,13 +28,13 @@ export default class FormFile extends React.Component {
 
             const result = await ServiceOrponingFile.orponing();
             if (result.error) {
-                this.state.notifyError(result.error);
+                this.state.notifyError(result.error, "Ошибка орпонизации");
                 this.setState({ processing: false, resultFile: "" })
             } else {
                 this.setState({ resultFile: result.data, isShowPreview: false, previewList: [], processing: false })
             }
         } catch (e) {
-            this.state.notifyError(e.message);
+            this.state.notifyError(e.message, "Ошибка орпонизации");
         }
     }
 
@@ -46,7 +46,7 @@ export default class FormFile extends React.Component {
         if (result.error) {
             e.target.value = "";
             this.setState({ countRow: 0, isShowPreview: false, previewList: [] });
-            this.state.notifyError(result.error);
+            this.state.notifyError(result.error, "Ошибка обработки данных");
         } else {
             this.setState({ countRow: result.count, isShowPreview: true, previewList: result.previewList });
         }
@@ -78,7 +78,7 @@ export default class FormFile extends React.Component {
         if (result.error) {
             e.target.value = "";
             this.setState({ countRow: 0, isShowPreview: false, previewList: [] });
-            this.state.notifyError(result.error);
+            this.state.notifyError(result.error, "Ошибка обработки данных");
         } else {
             this.setState({ countRow: result.count, isShowPreview: true, previewList: result.previewList });
             e.target.files = files;
@@ -86,7 +86,6 @@ export default class FormFile extends React.Component {
     }
 
     render() {
-        console.log("rend formFile");
         return (
             <div id="div-form-file">
                 <div className="input-group p-5">
