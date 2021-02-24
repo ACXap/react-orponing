@@ -1,17 +1,17 @@
-import api from "../services/test/Api.js";
-//import api from "../services/Api.js";
+//import Api from "../services/test/Api.js";
+import Api from "../services/Api.js";
 
 class ServiceOrponingComponent {
     async getListServices() {
-        return await api.apiGetListServices();
+        return await Api.apiGetListServices();
     }
 
     async getStatusService(id) {
-        return await api.apiGetStatusService(id);
+        return await Api.apiGetStatusService(id);
     }
 
     async startService(id) {
-        return await api.apiStartService(id);
+        return await Api.apiStartService(id);
     }
 }
 

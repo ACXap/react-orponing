@@ -33,7 +33,7 @@ export default class App extends React.Component {
                     <NavControlB />
                     <Route exact path="/" render={() => <Orponing notifyError={(m, t) => this.openModal(m, t)} />} />
                     <Route path="/about" render={() => <About notifyError={(m, t) => this.openModal(m, t)} />} />
-                    <Route path="/log" render={() => <Log notifyError={(m, t) => this.openModal(m, t)} />} />
+                    <Route path="/logs" render={() => <Log notifyError={(m, t) => this.openModal(m, t)} />} />
                     <Route path="/orponing-service" render={() => <OrponingService notifyError={(m, t) => this.openModal(m, t)} />} />
                 </BrowserRouter >
             </div >

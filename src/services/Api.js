@@ -1,5 +1,4 @@
-"use strict"
-export default class Api {
+class Api {
 
     async _getJson(response) {
         if (response.status == 200) {
@@ -93,3 +92,5 @@ export default class Api {
         return this._getJson(response);
     }
 }
+
+export default new Api();

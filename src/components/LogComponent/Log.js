@@ -26,7 +26,7 @@ export default class Log extends React.Component {
             const log = await ServiceLog.loadLog();
             this.setState({ log: log });
         } catch (e) {
-            this.state.notifyError(e.message);
+            this.notifyError(e.message);
         }
     }
 
@@ -35,7 +35,7 @@ export default class Log extends React.Component {
             const log = await ServiceLog.getAllLogs();
             this.setState({ listHistory: log });
         } catch (e) {
-            this.state.notifyError(e.message);
+            this.notifyError(e.message);
         }
     }
 
@@ -47,7 +47,7 @@ export default class Log extends React.Component {
             if (result.status === "COMPLETED") {
                 this.setState({ listHistory: [] });
             } else {
-                this.state.notifyError(result.message);
+                this.notifyError(result.message);
             }
         }
     }
@@ -59,7 +59,7 @@ export default class Log extends React.Component {
             const l = await ServiceLog.readLog(log);
             this.setState({ log: l });
         } catch (e) {
-            this.state.notifyError(e.message);
+            this.notifyError(e.message);
         }
     }
 
@@ -99,6 +99,6 @@ export default class Log extends React.Component {
     }
 }
 
-    Log.prototype={
+Log.propTypes = {
     notifyError: PropTypes.func.isRequired
 }

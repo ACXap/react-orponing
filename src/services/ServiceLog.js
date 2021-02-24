@@ -1,21 +1,21 @@
-import api from "../services/test/Api.js";
-//import api from "../services/Api.js";
+//import Api from "../services/test/Api.js";
+import Api from "../services/Api.js";
 
 class ServiceLog {
     async loadLog() {
-        return await api.apiGetLog();
+        return await Api.apiGetLog();
     }
 
     async clearArchive(password) {
-        return await api.apiClearArchive(password);
+        return await Api.apiClearArchive(password);
     }
 
     async getAllLogs(password) {
-        return await api.apiGetAllLogs();
+        return await Api.apiGetAllLogs();
     }
 
     async readLog(file) {
-        return await api.apiGetLogFile(file);
+        return await Api.apiGetLogFile(file);
     }
 }
 

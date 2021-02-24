@@ -1,4 +1,3 @@
-"use strict"
 class Api {
     async apiGetLog() {
         return "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi eligendi esse repudiandae consequuntur blanditiis ea aut neque doloribus odit exercitationem provident natus fuga, laborum nisi cupiditate enim eum fugiat tempore?";
