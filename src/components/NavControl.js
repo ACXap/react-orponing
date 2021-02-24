@@ -28,19 +28,19 @@ export default class NavControl extends React.Component {
             <nav className="navbar navbar-expand fixed-top navbar-dark bg-dark">
                 <div className="container-fluid">
                     <a className={`navbar-brand + ${this.state.lastOpenPage === this.linkOrponing ? "active" : ""}`}
-                        href="#" onClick={() => this.openPage(this.linkOrponing)}>Орпонизация</a>
+                        href="#home" onClick={() => this.openPage(this.linkOrponing)}>Орпонизация</a>
                     <ul className="navbar-nav me-auto mb-2 mb-sm-0">
                         <li className="nav-item">
                             <a className={this.getActiveLink(this.linkOrponingService)}
-                                href="#" onClick={() => this.openPage(this.linkOrponingService)}>Сервис орпонизации</a>
+                                href="#orponing-service" onClick={() => this.openPage(this.linkOrponingService)}>Сервис орпонизации</a>
                         </li>
                         <li className="nav-item">
                             <a className={this.getActiveLink(this.linkLog)}
-                                href="#" onClick={() => this.openPage(this.linkLog)}>События</a>
+                                href="#log" onClick={() => this.openPage(this.linkLog)}>События</a>
                         </li>
                         <li className="nav-item">
                             <a className={this.getActiveLink(this.linkAbout)}
-                                href="#" onClick={() => this.openPage(this.linkAbout)}>Помощь</a>
+                                href="#about" onClick={() => this.openPage(this.linkAbout)}>Помощь</a>
                         </li>
                     </ul>
                 </div>
