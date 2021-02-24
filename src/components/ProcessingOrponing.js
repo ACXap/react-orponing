@@ -1,20 +1,22 @@
 import React from "react";
+import { Spinner } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 export default class ProcessingOrponing extends React.Component {
-    constructor({ message }) {
-        super();
-
-        this.message = message;
+    constructor(props) {
+        super(props);
     }
 
     render() {
         return (
-            <div className="processing row py-2 text-center">
-                <div className="container">
-                    <h5>{this.message}</h5>
-                    <div className="spinner-grow text-primary" role="status"></div>
-                </div>
+            <div className="text-center">
+                <h5>{this.props.message}</h5>
+                <Spinner animation="grow" variant="primary" />
             </div>
         );
     }
+}
+
+ProcessingOrponing.propTypes = {
+    message: PropTypes.string.isRequired
 }

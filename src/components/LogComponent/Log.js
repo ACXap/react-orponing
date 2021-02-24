@@ -1,17 +1,19 @@
 import React from "react";
-import ServiceLog from "../../services/ServiceLog.js";
-import LogItem from "./LogItem.js";
+import ServiceLog from "../../services/ServiceLog";
+import LogItem from "./LogItem";
+import PropTypes from "prop-types";
 
 export default class Log extends React.Component {
-    constructor({ notifyError }) {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             processing: false,
-            notifyError: notifyError,
             log: "",
             listHistory: []
         }
+
+        this.notifyError = props.notifyError;
     }
 
     async componentDidMount() {
@@ -95,4 +97,8 @@ export default class Log extends React.Component {
             </div >
         );
     }
+}
+
+    Log.prototype={
+    notifyError: PropTypes.func.isRequired
 }

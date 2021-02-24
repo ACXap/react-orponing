@@ -1,12 +1,11 @@
 import React from "react";
-import Orponing from "./components/OrponingComponent/Orponing.js";
-import About from "./components/AboutComponent/About.js";
-import Log from "./components/LogComponent/Log.js"
-import OrponingService from "./components/OrponingServiceComponent/OrponingService.js";
-import ModalB from "./components/Modal/ModalB.js";
-import NavControlB from "./components/NavControlB.js";
+import Orponing from "./components/OrponingComponent/Orponing";
+import About from "./components/AboutComponent/About";
+import Log from "./components/LogComponent/Log"
+import OrponingService from "./components/OrponingServiceComponent/OrponingService";
+import ModalB from "./components/Modal/ModalB";
+import NavControlB from "./components/NavControlB";
 import { Route, BrowserRouter } from "react-router-dom";
-import history from './history';
 
 export default class App extends React.Component {
     constructor(props) {
