@@ -1,26 +1,32 @@
 import React from "react";
+import { Navbar, Nav } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
 export default class TabControl extends React.Component {
-    onChangeTab = () => { };
+    onChangeTab = () => { console.warn("no listener onChangeTab") };
 
     tabAddress = "tab-orponing-address";
     tabFile = "tab-orponing-file";
     tabClipboard = "tab-orponing-clipboard";
     tabHistory = "tab-orponing-history";
 
-    constructor({ onChangeTab, lastTab }) {
-        super();
-        this.onChangeTab = onChangeTab
-        this.lastTab = lastTab;
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            lastTab: props.lastTab
+        };
+
+        this.onChangeTab = props.onChangeTab
     }
 
     tabClick(nameTab) {
-        this.lastTab = nameTab;
+        this.setState({ lastTab: nameTab })
         this.onChangeTab(nameTab);
     }
 
     getClassName(tabName) {
-        return `btn btn-outline-primary mx-1 ${this.lastTab === tabName ? "active" : ""}`;
+        return `btn btn-outline-primary mx-1 ${this.state.lastTab === tabName ? "active" : ""}`;
     }
 
     render() {

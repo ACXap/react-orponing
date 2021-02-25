@@ -1,37 +1,33 @@
 export default class ServiceOrponing {
-    onStartTask = () => { console.warn("no listener onStartTask") };
-    onCompletedTask = () => { console.warn("no listener onCompletedTask") };
+    onUpdateTask = () => { console.warn("no listener onStartTask") };
 
     constructor(api) {
         this.api = api;
     }
 
-    async orponingAddress(address) {
-        const json = await this.api.apiOrponingAddress(address);
-        return json;
-    }
-
     async orponingListAddress(list, name) {
         try {
             const idTask = await this.api.apiOrponingListAddress(list);
-            this.onStartTask({ status: "START", name: name, taskId: idTask, countRecord: list.length, date: new Date() });
+            this.onUpdateTask({ status: "START", name: name, taskId: idTask, countRecord: list.length, date: new Date() });
 
             while (true) {
-                await this._delay(5000);
+                await this.delay(5000);
+
                 let result = await this.getStatus(idTask);
+
                 if (result.status === "COMPLETED") {
-                    this.onCompletedTask({ status: result.status, taskId: idTask, date: new Date() });
+                    this.onUpdateTask({ status: result.status, name: name, taskId: idTask, countRecord: list.length, date: new Date() });
                     result = await this.getResult(idTask);
                     return { data: this.convertAddressInfoToString(result, list), error: null }
                 }
             }
         } catch (e) {
-            this.onStartTask({ status: "ERROR", name: name, taskId: "", countRecord: list.length, date: new Date() });
+            this.onUpdateTask({ status: "ERROR", name: name, taskId: "", countRecord: list.length, date: new Date() });
             return { data: "", error: e.message };
         }
     }
 
-    _delay(delay) {
+    delay(delay) {
         return new Promise(resolve => setTimeout(resolve, delay));
     }
 

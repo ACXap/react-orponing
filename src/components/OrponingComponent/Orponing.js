@@ -1,18 +1,22 @@
 import React from "react";
-import TabControl from "./TabContol.js";
-import FormAddress from "./FormAddress.js";
+
+import TabControl from "./TabContol";
+import FormAddress from "./Address/FormAddress";
 import FormFile from "./FormFile.js";
-import FormClipboard from "./FormClipboard.js";
-import History from "./History/History.js";
+import FormClipboard from "./FormClipboard";
+import History from "./History/History";
+
 
 export default class Orponing extends React.Component {
 
-    constructor({ notifyError }) {
-        super();
+    constructor(props) {
+        super(props);
+
         this.state = {
-            lastTab: window.localStorage.getItem("lastTabName") ?? "tab-orponing-address",
-            notifyError: notifyError
+            lastTab: window.localStorage.getItem("lastTabName") ?? "tab-orponing-address"
         }
+
+        this.notifyError = props.notifyError;
     }
 
     changeTab(e) {
@@ -36,16 +40,16 @@ export default class Orponing extends React.Component {
                     <div className="tab-panel p-2">
                         <TabControl onChangeTab={(e) => this.changeTab(e)} lastTab={this.state.lastTab} />
                         <div style={this.getStyleShowTab("tab-orponing-address")}>
-                            <FormAddress notifyError={(m, t) => this.state.notifyError(m, t)} />
+                            <FormAddress notifyError={(m, t) => this.notifyError(m, t)} />
                         </div>
                         <div style={this.getStyleShowTab("tab-orponing-file")}>
-                            <FormFile notifyError={(m, t) => this.state.notifyError(m, t)} />
+                            <FormFile notifyError={(m, t) => this.notifyError(m, t)} />
                         </div>
                         <div style={this.getStyleShowTab("tab-orponing-clipboard")}  >
-                            <FormClipboard notifyError={(m, t) => this.state.notifyError(m, t)} />
+                            <FormClipboard notifyError={(m, t) => this.notifyError(m, t)} />
                         </div>
                         <div style={this.getStyleShowTab("tab-orponing-history")}  >
-                            <History notifyError={(m, t) => this.state.notifyError(m, t)} />
+                            <History notifyError={(m, t) => this.notifyError(m, t)} />
                         </div>
                     </div>
                 </div>

@@ -1,16 +1,18 @@
 import React from "react";
+
 import { serviceOrponingComponent } from "../../init";
 import ProcessingOrponing from "../ProcessingOrponing";
 import OrponingComponentItem from "./OrponingComponentItem";
 
 export default class OrponingService extends React.Component {
-    constructor({ notifyError }) {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             processing: true,
-            notifyError: notifyError,
             listComponent: []
         }
+
+        this.notifyError = props.notifyError;
     }
 
     async componentDidMount() {
@@ -20,11 +22,13 @@ export default class OrponingService extends React.Component {
             this.setState({ processing: false, listComponent: result });
         } catch (e) {
             this.setState({ processing: false, listComponent: [] });
-            this.state.notifyError(e.message, "Ошибка получения списка сервисов");
+            this.notifyError(e.message, "Ошибка получения списка сервисов");
         }
     }
 
     render() {
+        const listComponent = this.state.listComponent.map((i, index) => <OrponingComponentItem item={i} key={index} />);
+
         return (
             <div className="container py-5 text-center">
                 <div className="row py-5">
@@ -32,7 +36,7 @@ export default class OrponingService extends React.Component {
                 </div>
                 {this.state.processing ? <ProcessingOrponing message="Загрузка компонентов..." /> : ""}
                 <div className="row row-cols-md-3 g-4">
-                    {this.state.listComponent.map((i, index) => <OrponingComponentItem item={i} key={index} />)}
+                    {listComponent}
                 </div>
             </div>
         );

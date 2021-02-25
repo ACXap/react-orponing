@@ -1,48 +1,47 @@
 export default class ServiceOrponingFile {
-    _serviceOrponing;
-    _listAddress = [];
-    _fileName = "";
+    serviceOrponing;
+    listAddress = [];
+    fileName = "";
 
     constructor(serviceOrponing) {
-        this._serviceOrponing = serviceOrponing;
+        this.serviceOrponing = serviceOrponing;
     }
 
     async orponing() {
-        if (this._listAddress.length === 0) return;
-
-        return await this._serviceOrponing.orponingListAddress(this._listAddress, this._fileName);
+        if (this.listAddress.length === 0) throw new Error("Список адресов пустой");
+        return await this.serviceOrponing.orponingListAddress(this.listAddress, this.fileName);
     }
 
     async initListAddress(file) {
-        if (!this._isValidFile(file)) {
+        if (!this.isValidFile(file)) {
             return { count: 0, error: !file ? "А кто файл то будет добавлять?" : "Неверный тип файла. Допускается только *.txt и *.csv" };
         }
-        this._fileName = file.name;
+        this.fileName = file.name;
 
-        return await this._readFile(file);
+        return await this.readFile(file);
     }
 
-    async _readFile(file) {
+    async readFile(file) {
         try {
-            let result = await this._readFileUtfEncoding(file);
+            let result = await this.readFileUtfEncoding(file);
 
             if (result.error === "not correctly encoding") {
-                result = await this._readFileOtherEncoding(file);
+                result = await this.readFileOtherEncoding(file);
             }
 
             return result;
         } catch (e) {
-            return { count: 0, error: e };
+            return { count: 0, error: e.message };
         }
     }
 
-    async _readFileUtfEncoding(file) {
+    async readFileUtfEncoding(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsBinaryString(file);
             reader.onload = (event) => {
                 try {
-                    resolve(this._convertFileDataToAddress(decodeURIComponent(escape(event.target.result))));
+                    resolve(this.convertFileDataToAddress(decodeURIComponent(escape(event.target.result))));
                 } catch (e) {
                     if (e.message === "URI malformed") {
                         resolve({ count: 0, error: "not correctly encoding" });
@@ -54,13 +53,13 @@ export default class ServiceOrponingFile {
         });
     }
 
-    async _readFileOtherEncoding(file) {
+    async readFileOtherEncoding(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsText(file, "windows-1251");
             reader.onload = (e) => {
                 try {
-                    resolve(this._convertFileDataToAddress(e.target.result));
+                    resolve(this.convertFileDataToAddress(e.target.result));
                 } catch (e) {
                     reject(e);
                 }
@@ -68,13 +67,12 @@ export default class ServiceOrponingFile {
         });
     }
 
-    _convertFileDataToAddress(data) {
-        this._listAddress.length = 0;
-        this._listAddress.push(...this._serviceOrponing.convertStringToAddress(data));
-        return { count: this._listAddress.length, error: null, previewList: this._listAddress.slice(0, 10) };
+    convertFileDataToAddress(data) {
+        this.listAddress = this.serviceOrponing.convertStringToAddress(data);
+        return { count: this.listAddress.length, error: null, previewList: this.listAddress.slice(0, 10) };
     }
 
-    _isValidFile(file) {
+    isValidFile(file) {
         return file && (file.type === "text/plain" || (file.type === "application/vnd.ms-excel" && file.name.includes(".csv")));
     }
 }

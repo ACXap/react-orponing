@@ -1,10 +1,10 @@
 import React from "react";
 
 export default class LogItem extends React.Component {
-    constructor({ item, onClickItem }) {
-        super();
-        this.item = item;
-        this.onClickItem = onClickItem;
+    constructor(props) {
+        super(props);
+        this.item = props.item;
+        this.onClickItem = props.onClickItem;
     }
 
     clickItem() {

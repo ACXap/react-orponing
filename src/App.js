@@ -1,11 +1,12 @@
 import React from "react";
+import { Route, BrowserRouter } from "react-router-dom";
+
 import Orponing from "./components/OrponingComponent/Orponing";
 import About from "./components/AboutComponent/About";
 import Log from "./components/LogComponent/Log"
 import OrponingService from "./components/OrponingServiceComponent/OrponingService";
-import ModalB from "./components/Modal/ModalB";
+import Modal from "./components/Modal/Modal";
 import NavControlB from "./components/NavControlB";
-import { Route, BrowserRouter } from "react-router-dom";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -25,10 +26,11 @@ export default class App extends React.Component {
         const { isShow, message, title } = this.state.modal
         return (
             <div>
-                <ModalB isShow={isShow}
+                { this.state.modal.isShow ? <Modal isShow={isShow}
                     message={message}
                     title={title}
-                    onClose={() => this.setState({ modal: this.createModal(false, "", "") })} />
+                    onClose={() => this.setState({ modal: this.createModal(false, "", "") })} /> : ""}
+
                 <BrowserRouter>
                     <NavControlB />
                     <Route exact path="/" render={() => <Orponing notifyError={(m, t) => this.openModal(m, t)} />} />

@@ -4,7 +4,7 @@ export default class ServiceOrponingAddress {
     }
 
     async orponing(address) {
-        const json = await this.api.apiOrponingAddress(address);
-        return json;
+        if (!address) throw new Error("Адрес пустой");
+        return await this.api.apiOrponingAddress(address);
     }
 }

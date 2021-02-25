@@ -1,17 +1,18 @@
 import React from "react";
-import { serviceOrponingComponent } from "../../init";
 import { faSync, faPlay, faServer, faDatabase } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { serviceOrponingComponent } from "../../init";
+
 export default class OrponingComponentItem extends React.Component {
-    constructor({ item }) {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            name: item.name,
-            id: item.id,
-            icon: item.icon,
-            description: item.description,
-            isStartable: item.isStartable,
+            name: props.item.name,
+            id: props.item.id,
+            icon: props.item.icon,
+            description: props.item.description,
+            isStartable: props.item.isStartable,
             status: "STOP",
             message: "",
             dateStatus: new Date().toLocaleString(),
@@ -25,11 +26,12 @@ export default class OrponingComponentItem extends React.Component {
 
     async updateStatus(excute) {
         this.setState({ isLoadStatus: true });
+
         try {
             const result = await excute();
             this.setState({ isLoadStatus: false, status: result.status, message: result.message, dateStatus: result.dateStatus });
         } catch (e) {
-            this.setState({ isLoadStatus: false, message: e.message, dateStatus: new Date() });
+            this.setState({ isLoadStatus: false, status: "ERROR", message: e.message, dateStatus: new Date() });
         }
     }
 

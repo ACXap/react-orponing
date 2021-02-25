@@ -1,22 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 
-class FileResult extends React.Component {
-
-    constructor({ result }) {
-        super();
-
-        this.state = {
-            result: result
-        }
+export default class FileResult extends React.Component {
+    constructor(props) {
+        super(props);
     }
 
     render() {
         return (
-            <div className="container border text-center p-3 mt-2 result">
-                <a className="btn btn-primary" download="load.csv" href={this.state.result}>Скачать</a>
+            <div className="container border text-center p-3 mt-2">
+                <a className="btn btn-primary" download={this.props.nameDownload} href={this.props.result}>Скачать</a>
             </div>
-        )
+        );
     }
 }
-
-export default FileResult;

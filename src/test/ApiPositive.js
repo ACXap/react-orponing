@@ -1,4 +1,4 @@
-export default class Api {
+export default class ApiPositive {
     async apiClearArchive(password) {
         if (password === "yes") return { status: "COMPLETED" }
         return { status: "ERROR", message: "Error password" }
@@ -30,6 +30,8 @@ export default class Api {
     }
 
     async apiOrponingAddress(address) {
+        if (address === "error") return { GlobalId: -1, AddressOrpon: "Error", IsValid: false, ParsingLevelCode: "Error", UnparsedParts: "TestParts", QualityCode: "TestCode", CheckStatus: "TestStatus", Error: "TestError" }
+
         return { GlobalId: 12345678, AddressOrpon: "TestAddress", IsValid: true, ParsingLevelCode: "TestLevel", UnparsedParts: "TestParts", QualityCode: "TestCode", CheckStatus: "TestStatus" }
     }
 
