@@ -1,18 +1,17 @@
-//import Api from "../services/test/Api.js";
-import Api from "../services/Api.js";
+export default class ServiceOrponingComponent {
+    constructor(api) {
+        this.api = api;
+    }
 
-class ServiceOrponingComponent {
     async getListServices() {
-        return await Api.apiGetListServices();
+        return await this.api.apiGetListServices();
     }
 
     async getStatusService(id) {
-        return await Api.apiGetStatusService(id);
+        return await this.api.apiGetStatusService(id);
     }
 
     async startService(id) {
-        return await Api.apiStartService(id);
+        return await this.api.apiStartService(id);
     }
 }
-
-export default new ServiceOrponingComponent();

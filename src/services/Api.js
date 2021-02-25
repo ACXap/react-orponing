@@ -1,28 +1,4 @@
-class Api {
-
-    async _getJson(response) {
-        if (response.status == 200) {
-            return await response.json();
-        }
-
-        throw new Error(response.statusText);
-    }
-
-    async _getText(response) {
-        if (response.status == 200) {
-            return await response.text();
-        }
-
-        throw new Error(response.statusText);
-    }
-
-    _getHeadersPost() {
-        return {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Content-Encoding': 'gzip, deflate, br'
-        };
-    }
+export default class Api {
 
     async apiGetLog() {
         const response = await fetch("/log", {
@@ -91,6 +67,28 @@ class Api {
         const response = await fetch("/api/get_global_id/result?id=" + id);
         return this._getJson(response);
     }
-}
 
-export default new Api();
+    async _getJson(response) {
+        if (response.status == 200) {
+            return await response.json();
+        }
+
+        throw new Error(response.statusText);
+    }
+
+    async _getText(response) {
+        if (response.status == 200) {
+            return await response.text();
+        }
+
+        throw new Error(response.statusText);
+    }
+
+    _getHeadersPost() {
+        return {
+            'Content-Type': 'application/json;charset=utf-8',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Content-Encoding': 'gzip, deflate, br'
+        };
+    }
+}

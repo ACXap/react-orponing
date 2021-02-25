@@ -1,7 +1,7 @@
 import React from "react";
+import { serviceOrponingFile } from "../../init.js";
 import ProcessingOrponing from "../ProcessingOrponing.js";
 import FileResult from "./FileResult.js";
-import ServiceOrponingFile from "../../services/ServiceOrponingFile.js";
 import PreviewOrponing from "./PreviewOrponing.js";
 
 export default class FormFile extends React.Component {
@@ -26,7 +26,7 @@ export default class FormFile extends React.Component {
         try {
             this.setState({ processing: true });
 
-            const result = await ServiceOrponingFile.orponing();
+            const result = await serviceOrponingFile.orponing();
             if (result.error) {
                 this.state.notifyError(result.error, "Ошибка орпонизации");
                 this.setState({ processing: false, resultFile: "" })
@@ -41,7 +41,7 @@ export default class FormFile extends React.Component {
     async onChange(e) {
         const file = e.currentTarget.files[0];
 
-        const result = await ServiceOrponingFile.initListAddress(file);
+        const result = await serviceOrponingFile.initListAddress(file);
         this.setState({ isShowPreview: false });
         if (result.error) {
             e.target.value = "";
@@ -73,7 +73,7 @@ export default class FormFile extends React.Component {
         document.querySelector("#div-form-file").classList.remove("bg-secondary");
 
         const files = e.dataTransfer.files;
-        const result = await ServiceOrponingFile.initListAddress(files[0]);
+        const result = await serviceOrponingFile.initListAddress(files[0]);
         this.setState({ isShowPreview: false });
         if (result.error) {
             e.target.value = "";

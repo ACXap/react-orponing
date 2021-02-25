@@ -1,20 +1,19 @@
-//import Api from "../services/test/Api.js";
-import Api from "../services/Api.js";
+export default class ServiceOrponing {
+    onStartTask = () => { console.warn("no listener onStartTask") };
+    onCompletedTask = () => { console.warn("no listener onCompletedTask") };
 
-class ServiceOrponing {
-
-    onStartTask = () => { };
-    onCompletedTask = () => { };
-
+    constructor(api) {
+        this.api = api;
+    }
 
     async orponingAddress(address) {
-        const json = await Api.apiOrponingAddress(address);
+        const json = await this.api.apiOrponingAddress(address);
         return json;
     }
 
     async orponingListAddress(list, name) {
         try {
-            const idTask = await Api.apiOrponingListAddress(list);
+            const idTask = await this.api.apiOrponingListAddress(list);
             this.onStartTask({ status: "START", name: name, taskId: idTask, countRecord: list.length, date: new Date() });
 
             while (true) {
@@ -37,11 +36,11 @@ class ServiceOrponing {
     }
 
     async getStatus(idTask) {
-        return await Api.apiGetStatusTask(idTask);
+        return await this.api.apiGetStatusTask(idTask);
     }
 
     async getResult(idTask) {
-        return await Api.apiGetResultTask(idTask);
+        return await this.api.apiGetResultTask(idTask);
     }
 
     convertAddressInfoToString(addressInfo, list) {
@@ -81,5 +80,3 @@ class ServiceOrponing {
         return list;
     }
 }
-
-export default new ServiceOrponing();

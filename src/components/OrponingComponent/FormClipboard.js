@@ -1,7 +1,7 @@
 import React from "react";
+import { serviceOrponingClipboard } from "../../init.js";
 import ProcessingOrponing from "../ProcessingOrponing.js";
 import FileResult from "./FileResult.js";
-import ServiceOrponingClipboard from "../../services/ServiceOrponingClipboard.js";
 import PreviewOrponing from "./PreviewOrponing.js";
 
 export default class FormClipboard extends React.Component {
@@ -26,7 +26,7 @@ export default class FormClipboard extends React.Component {
         try {
             this.setState({ processing: true });
 
-            const result = await ServiceOrponingClipboard.orponing();
+            const result = await serviceOrponingClipboard.orponing();
             if (result.error) {
                 this.state.notifyError(result.error);
                 this.setState({ processing: false, resultFile: "" })
@@ -44,7 +44,7 @@ export default class FormClipboard extends React.Component {
 
             if (data) {
                 this.setState({ isShowPreview: false });
-                const result = ServiceOrponingClipboard.initListAddress(data);
+                const result = serviceOrponingClipboard.initListAddress(data);
                 if (result.error) {
                     this.state.notifyError(result.error);
                     this.setState({ countRow: 0, isShowPreview: false, previewList: [] });

@@ -1,16 +1,15 @@
-"use strict"
-import ServiceOrponing from "./ServiceOrponing.js";
-
-class ServiceHistory {
+export default class ServiceHistory {
     listHistory = new Map();
     index = 1;
-    handlerUpdateHistory;
+    handlerUpdateHistory = () => { console.warn("no listener handlerUpdateHistory") };
 
-    constructor() {
-        ServiceOrponing.onStartTask = (item) => {
+    constructor(serviceOrponing) {
+        this.serviceOrponing = serviceOrponing;
+
+        this.serviceOrponing.onStartTask = (item) => {
             this.addItem(item);
         }
-        ServiceOrponing.onCompletedTask = (task) => {
+        this.serviceOrponing.onCompletedTask = (task) => {
             this.setStatusTask(task);
         }
         this.updateList();
@@ -37,7 +36,7 @@ class ServiceHistory {
     async updateItem(taskId) {
         this.updateList();
 
-        const result = await ServiceOrponing.getStatus(taskId);
+        const result = await this.serviceOrponing.getStatus(taskId);
         if (result) {
             const t = this.listHistory.get(taskId);
             t.status = result.status;
@@ -83,5 +82,3 @@ class ServiceHistory {
         return this.listHistory;
     }
 }
-
-export default new ServiceHistory(ServiceOrponing);

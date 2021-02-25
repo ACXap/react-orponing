@@ -1,6 +1,4 @@
-"use strict"
-import ServiceOrponing from "../services/ServiceOrponing.js";
-class ServiceOrponingFile {
+export default class ServiceOrponingFile {
     _serviceOrponing;
     _listAddress = [];
     _fileName = "";
@@ -80,5 +78,3 @@ class ServiceOrponingFile {
         return file && (file.type === "text/plain" || (file.type === "application/vnd.ms-excel" && file.name.includes(".csv")));
     }
 }
-
-export default new ServiceOrponingFile(ServiceOrponing);

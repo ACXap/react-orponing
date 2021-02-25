@@ -1,7 +1,7 @@
 import React from "react";
+import { serviceOrponingComponent } from "../../init";
 import ProcessingOrponing from "../ProcessingOrponing";
-import ServiceOrponingComponent from "../../services/ServiceOrponingComponent.js";
-import OrponingComponentItem from "./OrponingComponentItem.js";
+import OrponingComponentItem from "./OrponingComponentItem";
 
 export default class OrponingService extends React.Component {
     constructor({ notifyError }) {
@@ -15,12 +15,12 @@ export default class OrponingService extends React.Component {
 
     async componentDidMount() {
         try {
-            const result = await ServiceOrponingComponent.getListServices();
+            const result = await serviceOrponingComponent.getListServices();
 
             this.setState({ processing: false, listComponent: result });
         } catch (e) {
             this.setState({ processing: false, listComponent: [] });
-            this.state.notifyError(e.message);
+            this.state.notifyError(e.message, "Ошибка получения списка сервисов");
         }
     }
 

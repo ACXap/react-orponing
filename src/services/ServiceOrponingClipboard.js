@@ -1,6 +1,4 @@
-"use strict"
-import ServiceOrponing from "../services/ServiceOrponing.js";
-class ServiceOrponingClipboard {
+export default class ServiceOrponingClipboard {
     serviceOrponing;
     listAddress = [];
 
@@ -25,5 +23,3 @@ class ServiceOrponingClipboard {
         }
     }
 }
-
-export default new ServiceOrponingClipboard(ServiceOrponing);

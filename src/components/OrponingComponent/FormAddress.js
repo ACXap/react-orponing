@@ -1,15 +1,15 @@
 import React from "react";
-import ServiceOrponingAddress from "../../services/ServiceOrponingAddress";
+import { serviceOrponingAddress, history } from "../../init";
+
 import AddressResult from "./AddressResult";
 import ProcessingOrponing from "../ProcessingOrponing";
-import history from '../../history';
 
 class FormAddress extends React.Component {
     constructor({ notifyError }) {
         super();
         this.state = {
-            resultAddress: history.location.resultAddress,
-            requestAddress: history.location.resultAddress?.requestAddress,
+            resultAddress: history.location?.resultAddress,
+            requestAddress: history.location?.resultAddress?.requestAddress,
             processing: false
         }
 
@@ -21,7 +21,7 @@ class FormAddress extends React.Component {
             const address = this.state.requestAddress;
             if (this.state.requestAddress) {
                 this.setState({ processing: true });
-                const json = await ServiceOrponingAddress.orponing(address);
+                const json = await serviceOrponingAddress.orponing(address);
                 json.requestAddress = address;
                 this.setState({ resultAddress: json, processing: false });
 

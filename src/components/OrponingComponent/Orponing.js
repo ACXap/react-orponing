@@ -3,8 +3,7 @@ import TabControl from "./TabContol.js";
 import FormAddress from "./FormAddress.js";
 import FormFile from "./FormFile.js";
 import FormClipboard from "./FormClipboard.js";
-import History from "./History.js";
-
+import History from "./History/History.js";
 
 export default class Orponing extends React.Component {
 

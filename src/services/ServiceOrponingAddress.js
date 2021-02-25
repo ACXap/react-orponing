@@ -1,11 +1,10 @@
-//import Api from "./test/Api.js";
-import Api from "../services/Api.js";
+export default class ServiceOrponingAddress {
+    constructor(api) {
+        this.api = api;
+    }
 
-class ServiceOrponingAddress {
     async orponing(address) {
-        const json = await Api.apiOrponingAddress(address);
+        const json = await this.api.apiOrponingAddress(address);
         return json;
     }
 }
-
-export default new ServiceOrponingAddress();

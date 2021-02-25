@@ -1,5 +1,6 @@
 import React from "react";
-import ServiceLog from "../../services/ServiceLog";
+import { serviceLog } from "../../init";
+
 import LogItem from "./LogItem";
 import PropTypes from "prop-types";
 
@@ -10,10 +11,12 @@ export default class Log extends React.Component {
         this.state = {
             processing: false,
             log: "",
-            listHistory: []
+            listHistory: [],
+            scrollTop: Number.MAX_SAFE_INTEGER
         }
 
         this.notifyError = props.notifyError;
+        this.textLog = React.createRef();
     }
 
     async componentDidMount() {
@@ -21,45 +24,48 @@ export default class Log extends React.Component {
         this.loadAllLog();
     }
 
+    componentDidUpdate() {
+        this.textLog.current.scrollTop = this.textLog.current.scrollHeight;;
+    }
+
     async loadLog() {
         try {
-            const log = await ServiceLog.loadLog();
+            const log = await serviceLog.loadLog();
             this.setState({ log: log });
         } catch (e) {
-            this.notifyError(e.message);
+            this.notifyError(e.message, "Ошибка загрузки текущего лога");
         }
     }
 
     async loadAllLog() {
         try {
-            const log = await ServiceLog.getAllLogs();
+            const log = await serviceLog.getAllLogs();
             this.setState({ listHistory: log });
+
         } catch (e) {
-            this.notifyError(e.message);
+            this.notifyError(e.message, "Ошибка загрузки списка логов");
         }
     }
 
     async clearArchive() {
         const password = window.prompt("Укажите пароль для операции:");
         if (password) {
-            const result = await ServiceLog.clearArchive(password);
+            const result = await serviceLog.clearArchive(password);
 
             if (result.status === "COMPLETED") {
                 this.setState({ listHistory: [] });
             } else {
-                this.notifyError(result.message);
+                this.notifyError(result.message, "Ошибка очистки логов");
             }
         }
     }
 
-    onChange(e) { }
-
     async clickItemLog(log) {
         try {
-            const l = await ServiceLog.readLog(log);
-            this.setState({ log: l });
+            const l = await serviceLog.readLog(log);
+            this.setState({ log: l, scrollTop: Number.MAX_SAFE_INTEGER });
         } catch (e) {
-            this.notifyError(e.message);
+            this.notifyError(e.message, "Ошибка загрузки лога");
         }
     }
 
@@ -73,8 +79,8 @@ export default class Log extends React.Component {
                 <div className="container border border-primary">
                     <div className="row p-2">
                         <div className="col-sm-10 px-1">
-                            <textarea className="form-control p-2" value={this.state.log} style={{ height: "600px" }}
-                                onChange={(e) => this.onChange(e)} />
+                            <textarea className="form-control p-2" ref={this.textLog} value={this.state.log} style={{ height: "600px" }}
+                                onChange={() => { }} />
                         </div>
 
                         <div className="col-sm-2 px-1 border d-flex flex-column">

@@ -1,6 +1,6 @@
 import React from "react";
-import ServiceHistory from "../../services/ServiceHistory.js";
 import HistoryItem from "./HistoryItem.js";
+import { serviceHistory } from "../../../init.js";
 
 export default class History extends React.Component {
     notifyError;
@@ -9,15 +9,15 @@ export default class History extends React.Component {
         super();
 
         this.state = {
-            listHistory: ServiceHistory.getHistory()
+            listHistory: serviceHistory.getHistory()
         }
         this.notifyError = notifyError;
-        ServiceHistory.handlerUpdateHistory = () => this.onUpdateHistory();
+        serviceHistory.handlerUpdateHistory = () => this.onUpdateHistory();
     }
 
     onUpdateHistory() {
         this.setState({ listHistory: new Map() });
-        this.setState({ listHistory: ServiceHistory.getHistory() });
+        this.setState({ listHistory: serviceHistory.getHistory() });
     }
 
     componentDidMount() {
@@ -25,12 +25,12 @@ export default class History extends React.Component {
     }
 
     removeItem(id) {
-        ServiceHistory.removeItem(id);
+        serviceHistory.removeItem(id);
         //this.setState({ listHistory: ServiceHistory.getHistory() });
     }
 
     updateItem(id) {
-        ServiceHistory.updateItem(id);
+        serviceHistory.updateItem(id);
         //this.setState({ listHistory: ServiceHistory.getHistory() });
     }
 
