@@ -7,7 +7,6 @@ export default class ServiceOrponingClipboard {
 
     async orponing() {
         if (this.listAddress.length === 0) throw new Error("Список адресов пустой");
-
         return await this.serviceOrponing.orponingListAddress(this.listAddress, "Буфер обмена");
     }
 

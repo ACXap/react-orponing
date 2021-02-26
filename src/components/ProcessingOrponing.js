@@ -3,10 +3,6 @@ import { Spinner } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 export default class ProcessingOrponing extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="text-center">

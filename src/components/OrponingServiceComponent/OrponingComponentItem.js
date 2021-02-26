@@ -21,7 +21,7 @@ export default class OrponingComponentItem extends React.Component {
     }
 
     async componentDidMount() {
-        this.updateStatus(() => serviceOrponingComponent.getStatusService(this.state.id));
+        this.clickSync();
     }
 
     async updateStatus(excute) {
@@ -58,6 +58,8 @@ export default class OrponingComponentItem extends React.Component {
     }
 
     render() {
+        const p = { cursor: "pointer" };
+
         return (
             <div className="col">
                 <div className="card shadow p-3 mb-2">
@@ -79,14 +81,14 @@ export default class OrponingComponentItem extends React.Component {
                         <div className="row">
                             <div className="col-sm-6">
                                 <FontAwesomeIcon icon={faSync}
-                                    style={{ cursor: "pointer" }}
+                                    style={p}
                                     spin={this.state.isLoadStatus}
                                     onClick={() => this.clickSync()}
                                     title="Обновить статус компонента" />
                             </div>
                             {this.state.isStartable ? <div className="col-sm-6">
                                 <FontAwesomeIcon icon={faPlay}
-                                    style={{ cursor: "pointer" }}
+                                    style={p}
                                     onClick={() => this.clickStart()}
                                     title="Запустить компонент" />
                             </div> : ""}
