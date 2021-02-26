@@ -4,90 +4,57 @@ export default class ServiceHistory {
 
     constructor(serviceOrponing) {
         this.serviceOrponing = serviceOrponing;
-
-        this.serviceOrponing.onUpdateTask = (task) => {
-
-
-            const list = this.getHistory();
-
-            const t = list.filter(h => h.taskId === task.taskId)[0];
-            if (t) {
-                t.status = task.status;
-                t.message = task.message;
-                t.date = new Date(task.date).toLocaleString();
-            } else {
-                task.id = list.length + 1;
-                task.date = new Date(task.date).toLocaleString();
-                list.push(task);
-            }
-
-            this.setHistory(list);
-            this.onUpdateHistory(this.getHistory());
-
-
-        }
+        this.serviceOrponing.onAddTask = (task) => this.addTask(task);
+        this.serviceOrponing.onUpdateTask = (taskId, status) => this.updateTask(taskId, status);
     }
 
     addTask(task) {
-
+        const list = this.getHistory().filter(h => h.taskId != task.taskId);
+        task.id = list.length + 1;
+        task.date = new Date(task.dateStatus).toLocaleString();
+        list.push(task);
+        this.setHistory(list);
     }
 
-    removeTask(taskId) {
+    updateTask(taskId, status) {
         const list = this.getHistory();
-        const newList = list.filter(t => t.taskId != taskId);
-        this.setHistory(newList);
-
-        return this.getHistory();
-    }
-
-    async updateTask(taskId) {
-        const list = this.getHistory();
-
-        const currentTask = list.filter(t => t.taskId === taskId)[0];
+        const currentTask = list.find(h => h.taskId === taskId);
 
         if (currentTask) {
-            currentTask.status = "START";
-            currentTask.message = "";
-            currentTask.date = new Date().toLocaleString();
-
+            this.setTaskStatus(currentTask, status.status, status.message, new Date(status.dateStatus));
             this.setHistory(list);
-            this.onUpdateHistory(this.getHistory());
-            this.update(taskId);
+        } else {
+            console.error("task not found");
         }
-
-        this.setHistory(list);
-        this.onUpdateHistory(this.getHistory());
-    }
-
-    async update(taskId) {
-        const list = this.getHistory();
-        const currentTask = list.filter(t => t.taskId === taskId)[0];
-
-        try {
-            if (currentTask) {
-                const task = await this.serviceOrponing.getStatus(taskId);
-                currentTask.status = task.status;
-                currentTask.message = task.message;
-                currentTask.date = new Date(task.dateStatus).toLocaleString();
-            }
-        } catch (e) {
-            currentTask.status = "ERROR";
-            currentTask.message = e.message;
-            currentTask.date = new Date().toLocaleString();
-        }
-
-        this.setHistory(list);
-        this.onUpdateHistory(this.getHistory());
     }
 
     getHistory() {
-        const list = JSON.parse(window.localStorage.getItem("history"));
-        if (!list) return [];
-
-        return list;
+        return JSON.parse(window.localStorage.getItem("history")) ?? [];
     }
 
     setHistory(list) {
         window.localStorage.setItem("history", JSON.stringify(list));
+        this.onUpdateHistory(list);
+    }
+
+    removeTask(taskId) {
+        const newList = this.getHistory().filter(t => t.taskId != taskId);
+        this.setHistory(newList);
+    }
+
+    async updateStatusTask(taskId) {
+        this.updateTask(taskId, { status: "START", message: "", dateStatus: new Date() });
+        try {
+            const status = await this.serviceOrponing.getStatus(taskId);
+            this.updateTask(taskId, status);
+        } catch (e) {
+            this.updateTask(taskId, { status: "ERROR", message: e.message, dateStatus: new Date() });
+        }
+    }
+
+    setTaskStatus(task, status, message, date) {
+        task.status = status;
+        task.message = message;
+        task.date = date.toLocaleString();
     }
 }

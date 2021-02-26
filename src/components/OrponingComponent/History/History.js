@@ -18,11 +18,11 @@ export default class History extends React.Component {
     }
 
     removeItem(id) {
-        this.setState({ listHistory: serviceHistory.removeTask(id) })
+        serviceHistory.removeTask(id);
     }
 
     updateItem(id) {
-        serviceHistory.updateTask(id);
+        serviceHistory.updateStatusTask(id);
     }
 
     render() {
@@ -47,7 +47,7 @@ export default class History extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {list.map((i) => <HistoryItem item={i} key={i.id}
+                                {list.map((i) => <HistoryItem item={i} key={i.taskId}
                                     onUpdate={() => this.updateItem(i.taskId)}
                                     onRemove={() => this.removeItem(i.taskId)} />)}
                             </tbody>

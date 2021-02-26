@@ -57,7 +57,7 @@ export default class FormClipboard extends React.Component {
                 <div className="d-flex p-5">
                     <button className="btn btn-primary" type="button"
                         onClick={() => this.initListAddress()}>Вставить данные из буфера обмена</button>
-                    <button className="btn btn-primary ms-auto start" type="button"
+                    <button className="btn btn-primary ms-auto" type="button" disabled={this.state.processing}
                         onClick={() => this.orponing()}>Орпонизируй меня полностью</button>
                 </div>
                 <div className="px-2">Всего записей: {this.state.countRow}</div>
