@@ -4,7 +4,7 @@ import AboutSimpleText from "./AboutSimpleText";
 export default class About extends React.Component {
     render() {
         return (
-            <div className="container p-2">
+            <div className="container p-5 shadow-lg overflow-auto" style={{ maxHeight: "1080px" }}>
 
                 <AboutSimpleText header="ОРПОН">
                     <p className="lead">Отраслевое решение «паспортизация объектов недвижимости» - система управления адресной

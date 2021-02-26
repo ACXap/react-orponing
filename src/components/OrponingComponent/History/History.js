@@ -10,29 +10,24 @@ export default class History extends React.Component {
             listHistory: serviceHistory.getHistory()
         }
         this.notifyError = props.notifyError;
-        serviceHistory.handlerUpdateHistory = () => this.onUpdateHistory();
+        serviceHistory.onUpdateHistory = (list) => this.onUpdateHistory(list);
     }
 
-    onUpdateHistory() {
-        this.setState({ listHistory: new Map() });
-        this.setState({ listHistory: serviceHistory.getHistory() });
-    }
-
-    componentDidMount() {
-        console.log("load history");
+    onUpdateHistory(list) {
+        this.setState({ listHistory: list });
     }
 
     removeItem(id) {
-        serviceHistory.removeItem(id);
+        this.setState({ listHistory: serviceHistory.removeTask(id) })
     }
 
     updateItem(id) {
-        serviceHistory.updateItem(id);
+        serviceHistory.updateTask(id);
     }
 
     render() {
-        console.log("rend history");
-        const list = Array.from(this.state.listHistory.values());
+        const list = this.state.listHistory;
+
         return (
             <div hidden={this.props.hidden}>
                 {list.length === 0 ?
@@ -52,7 +47,7 @@ export default class History extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {list.map((i, index) => <HistoryItem item={i} key={index}
+                                {list.map((i) => <HistoryItem item={i} key={i.id}
                                     onUpdate={() => this.updateItem(i.taskId)}
                                     onRemove={() => this.removeItem(i.taskId)} />)}
                             </tbody>

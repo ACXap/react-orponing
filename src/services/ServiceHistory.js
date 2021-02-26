@@ -1,84 +1,93 @@
 export default class ServiceHistory {
-    listHistory = new Map();
-    index = 1;
-    handlerUpdateHistory = () => { console.warn("no listener handlerUpdateHistory") };
+    serviceOrponing;
+    onUpdateHistory = () => { console.warn("no listener onUpdateHistory") };
 
     constructor(serviceOrponing) {
         this.serviceOrponing = serviceOrponing;
 
-        this.serviceOrponing.onStartTask = (item) => {
-            this.addItem(item);
+        this.serviceOrponing.onUpdateTask = (task) => {
+
+
+            const list = this.getHistory();
+
+            const t = list.filter(h => h.taskId === task.taskId)[0];
+            if (t) {
+                t.status = task.status;
+                t.message = task.message;
+                t.date = new Date(task.date).toLocaleString();
+            } else {
+                task.id = list.length + 1;
+                task.date = new Date(task.date).toLocaleString();
+                list.push(task);
+            }
+
+            this.setHistory(list);
+            this.onUpdateHistory(this.getHistory());
+
+
         }
-        this.serviceOrponing.onCompletedTask = (task) => {
-            this.setStatusTask(task);
-        }
-        this.updateList();
     }
 
-    addItem(item) {
-        this.updateList();
-        this.listHistory.set(item.taskId, { id: this.index++, status: item.status, name: item.name, taskId: item.taskId, countRecord: item.countRecord, date: item.date.toLocaleString("ru-RU") });
+    addTask(task) {
 
-        window.localStorage.setItem("history", JSON.stringify(Array.from(this.listHistory.entries())));
-        if (this.handlerUpdateHistory) this.handlerUpdateHistory();
     }
 
-    removeItem(taskId) {
-        this.updateList();
-        console.log(this.listHistory.has(taskId));
-        this.listHistory.delete(taskId);
+    removeTask(taskId) {
+        const list = this.getHistory();
+        const newList = list.filter(t => t.taskId != taskId);
+        this.setHistory(newList);
 
-        window.localStorage.setItem("history", JSON.stringify(Array.from(this.listHistory.entries())));
-        this.updateList();
-        if (this.handlerUpdateHistory) this.handlerUpdateHistory();
+        return this.getHistory();
     }
 
-    async updateItem(taskId) {
-        this.updateList();
+    async updateTask(taskId) {
+        const list = this.getHistory();
 
-        const result = await this.serviceOrponing.getStatus(taskId);
-        if (result) {
-            const t = this.listHistory.get(taskId);
-            t.status = result.status;
-            t.date = new Date(result.dateStatus).toLocaleString("ru-RU");
+        const currentTask = list.filter(t => t.taskId === taskId)[0];
+
+        if (currentTask) {
+            currentTask.status = "START";
+            currentTask.message = "";
+            currentTask.date = new Date().toLocaleString();
+
+            this.setHistory(list);
+            this.onUpdateHistory(this.getHistory());
+            this.update(taskId);
         }
 
-        window.localStorage.setItem("history", JSON.stringify(Array.from(this.listHistory.entries())));
-        if (this.handlerUpdateHistory) this.handlerUpdateHistory();
+        this.setHistory(list);
+        this.onUpdateHistory(this.getHistory());
     }
 
-    setStatusTask(task) {
-        this.updateList();
+    async update(taskId) {
+        const list = this.getHistory();
+        const currentTask = list.filter(t => t.taskId === taskId)[0];
 
-        const t = this.listHistory.get(task.taskId);
-        t.status = task.status;
-        t.date = task.date;
-
-        window.localStorage.setItem("history", JSON.stringify(Array.from(this.listHistory.entries())));
-        if (this.handlerUpdateHistory) this.handlerUpdateHistory();
-    }
-
-    updateList() {
         try {
-            const history = new Map(JSON.parse(window.localStorage.getItem("history")));
-
-            if (history) {
-                const list = new Map();
-                this.index = 1;
-
-                for (const item of history.values()) {
-                    list.set(item.taskId, { id: this.index++, status: item.status, name: item.name, taskId: item.taskId, countRecord: item.countRecord, date: item.date });
-                }
-
-                this.listHistory.clear();
-                list.forEach(i => this.listHistory.set(i.taskId, i));
+            if (currentTask) {
+                const task = await this.serviceOrponing.getStatus(taskId);
+                currentTask.status = task.status;
+                currentTask.message = task.message;
+                currentTask.date = new Date(task.dateStatus).toLocaleString();
             }
         } catch (e) {
-            console.error(e);
+            currentTask.status = "ERROR";
+            currentTask.message = e.message;
+            currentTask.date = new Date().toLocaleString();
         }
+
+        this.setHistory(list);
+        this.onUpdateHistory(this.getHistory());
     }
 
     getHistory() {
-        return this.listHistory;
+        const list = JSON.parse(window.localStorage.getItem("history"));
+        if (!list) return [];
+
+        return list;
+    }
+
+    setHistory(list) {
+        window.localStorage.setItem("history", JSON.stringify(list));
     }
 }

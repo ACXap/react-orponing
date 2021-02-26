@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export default class NavControlB extends React.Component {
     render() {
         return (
-            <Navbar bg="dark" variant="dark">
+            <Navbar bg="dark" variant="dark" fixed="top">
                 <Nav className="mr-auto">
                     <Link className="nav-link active s-lg" to='/'>Орпонизация</Link>
                     <Link className="nav-link" to='/orponing-service'>Сервис орпонизации</Link>

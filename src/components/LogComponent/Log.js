@@ -87,7 +87,7 @@ export default class Log extends React.Component {
         const listLog = this.state.listHistory.map((i, index) => <LogItem item={i} onClickItem={() => this.clickItemLog(i)} key={index} />);
 
         return (
-            <div className="container py-5 shadow-lg p-5">
+            <div className="container p-5 shadow-lg">
                 <div className="row p-5 text-center">
                     <h2>События у сервиса орпонизации</h2>
                 </div>
