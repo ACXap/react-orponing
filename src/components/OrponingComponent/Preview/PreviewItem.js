@@ -1,10 +1,6 @@
 import React from "react";
 
 export default class PreviewItem extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const cn = `col-2 border-end${this.props.isValid ? "" : " bg-danger"}`;
         const t = this.props.isValid ? "" : "Идентификатор должен быть числом";

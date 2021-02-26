@@ -1,10 +1,6 @@
 import React from "react";
 
 export default class AddressResult extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { IsValid, Error, GlobalId, AddressOrpon, ParsingLevelCode, UnparsedParts, QualityCode, CheckStatus } = this.props.result;
         const header = IsValid ? "Адрес разобран" : "Адрес разобран c ошибками";

@@ -3,9 +3,6 @@ import { faTrash, faDownload, faSync } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class HistoryItem extends React.Component {
-    notifyError;
-    onRemove
-
     constructor({ item, notifyError, onRemove, onUpdate }) {
         super();
 

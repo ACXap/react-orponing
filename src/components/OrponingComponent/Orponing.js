@@ -1,14 +1,12 @@
 import React from "react";
 
-import TabControl from "./TabContol";
+import TabControl from "./TabControl";
 import FormAddress from "./Address/FormAddress";
 import FormFile from "./FormFile.js";
 import FormClipboard from "./FormClipboard";
 import History from "./History/History";
 
-
 export default class Orponing extends React.Component {
-
     constructor(props) {
         super(props);
 
@@ -24,14 +22,10 @@ export default class Orponing extends React.Component {
         window.localStorage.setItem("lastTabName", e);
     }
 
-    getStyleShowTab(tabName) {
-        return this.state.lastTab === tabName ? null : { display: 'none' };
-    }
-
     render() {
+        const lt = this.state.lastTab;
         return (
-            <div className="container p-5 shadow-lg" id="page-orponing">
-
+            <div className="container p-5 shadow-lg">
                 <div className="row py-5 text-center">
                     <h2>Орпонизация</h2>
                 </div>
@@ -39,18 +33,11 @@ export default class Orponing extends React.Component {
                 <div className="container border border-primary mt-5">
                     <div className="tab-panel p-2">
                         <TabControl onChangeTab={(e) => this.changeTab(e)} lastTab={this.state.lastTab} />
-                        <div style={this.getStyleShowTab("tab-orponing-address")}>
-                            <FormAddress notifyError={(m, t) => this.notifyError(m, t)} />
-                        </div>
-                        <div style={this.getStyleShowTab("tab-orponing-file")}>
-                            <FormFile notifyError={(m, t) => this.notifyError(m, t)} />
-                        </div>
-                        <div style={this.getStyleShowTab("tab-orponing-clipboard")}  >
-                            <FormClipboard notifyError={(m, t) => this.notifyError(m, t)} />
-                        </div>
-                        <div style={this.getStyleShowTab("tab-orponing-history")}  >
-                            <History notifyError={(m, t) => this.notifyError(m, t)} />
-                        </div>
+
+                        <FormAddress notifyError={(m, t) => this.notifyError(m, t)} hidden={lt != "tab-orponing-address"} />
+                        <FormFile notifyError={(m, t) => this.notifyError(m, t)} hidden={lt != "tab-orponing-file"} />
+                        <FormClipboard notifyError={(m, t) => this.notifyError(m, t)} hidden={lt != "tab-orponing-clipboard"} />
+                        <History notifyError={(m, t) => this.notifyError(m, t)} hidden={lt != "tab-orponing-history"} />
                     </div>
                 </div>
             </div>

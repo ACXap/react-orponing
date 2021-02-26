@@ -9,7 +9,7 @@ export default class FormAddress extends React.Component {
         super(props);
         this.state = {
             resultAddress: history.location?.resultAddress,
-            requestAddress: history.location?.resultAddress?.requestAddress,
+            requestAddress: history.location?.resultAddress?.requestAddress ?? "",
             processing: false
         }
 
@@ -42,7 +42,7 @@ export default class FormAddress extends React.Component {
 
     render() {
         return (
-            <div>
+            <div hidden={this.props.hidden}>
                 <div className="input-group p-5">
                     <input type="text" className="form-control" placeholder="Адрес" value={this.state.requestAddress}
                         onChange={(e) => this.setAddress(e)} />

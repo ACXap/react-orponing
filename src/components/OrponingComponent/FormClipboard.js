@@ -53,7 +53,7 @@ export default class FormClipboard extends React.Component {
 
     render() {
         return (
-            <div>
+            <div hidden={this.props.hidden}>
                 <div className="d-flex p-5">
                     <button className="btn btn-primary" type="button"
                         onClick={() => this.initListAddress()}>Вставить данные из буфера обмена</button>

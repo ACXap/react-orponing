@@ -2,10 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 export default class Modal extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const s = this.props.isShow ? "block" : "none";
 

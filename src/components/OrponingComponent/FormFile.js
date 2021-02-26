@@ -74,7 +74,7 @@ export default class FormFile extends React.Component {
 
     render() {
         return (
-            <div>
+            <div hidden={this.props.hidden}>
                 <div className="input-group p-5">
                     <input className="form-control" type="file"
                         onDrop={e => this.ondrop(e)} value={this.state.files}
@@ -85,6 +85,7 @@ export default class FormFile extends React.Component {
                         onClick={() => this.orponing()}>Орпонизируй меня полностью</button>
                 </div>
                 <div className="px-2">Всего записей: {this.state.countRow}</div>
+
                 { this.state.processing ? <ProcessingOrponing message="Обработка запроса..." /> : ""}
                 { this.state.resultFile ? <FileResult result={this.state.resultFile} nameDownload="file.csv" /> : ""}
                 { this.state.isShowPreview ? <PreviewOrponing list={this.state.previewList} /> : ""}

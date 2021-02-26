@@ -2,10 +2,6 @@ import React from "react";
 import AboutSimpleText from "./AboutSimpleText";
 
 export default class About extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="container p-2">

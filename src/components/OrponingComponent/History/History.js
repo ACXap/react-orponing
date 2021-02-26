@@ -1,17 +1,15 @@
 import React from "react";
-import HistoryItem from "./HistoryItem.js";
-import { serviceHistory } from "../../../init.js";
+import { serviceHistory } from "../../../init";
+import HistoryItem from "./HistoryItem";
 
 export default class History extends React.Component {
-    notifyError;
-
-    constructor({ notifyError }) {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             listHistory: serviceHistory.getHistory()
         }
-        this.notifyError = notifyError;
+        this.notifyError = props.notifyError;
         serviceHistory.handlerUpdateHistory = () => this.onUpdateHistory();
     }
 
@@ -26,19 +24,17 @@ export default class History extends React.Component {
 
     removeItem(id) {
         serviceHistory.removeItem(id);
-        //this.setState({ listHistory: ServiceHistory.getHistory() });
     }
 
     updateItem(id) {
         serviceHistory.updateItem(id);
-        //this.setState({ listHistory: ServiceHistory.getHistory() });
     }
 
     render() {
         console.log("rend history");
         const list = Array.from(this.state.listHistory.values());
         return (
-            <div id="div-form-history p-5">
+            <div hidden={this.props.hidden}>
                 {list.length === 0 ?
                     <h3 className="text-center clear py-5">История пуста</h3>
                     :
