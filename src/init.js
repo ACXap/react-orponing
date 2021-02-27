@@ -1,6 +1,6 @@
-//import Api from "./services/Api.js";
+import Api from "./services/Api.js";
 //import Api from "./test/ApiNegative.js";
-import Api from "./test/ApiPositive.js";
+//import Api from "./test/ApiPositive.js";
 import ServiceLog from "./services/ServiceLog.js";
 import ServiceOrponing from "./services/ServiceOrponing.js";
 import ServiceOrponingAddress from "./services/ServiceOrponingAddress.js";
@@ -10,7 +10,7 @@ import ServiceOrponingFile from "./services/ServiceOrponingFile.js";
 import ServiceHistory from "./services/ServiceHistory.js";
 import { createBrowserHistory } from 'history';
 
-const BASE_URL = "/api/1.0/";
+const BASE_URL = "api/1.0/";
 
 const api = new Api(BASE_URL);
 const serviceOrponing = new ServiceOrponing(api);

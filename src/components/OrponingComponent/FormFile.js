@@ -42,7 +42,6 @@ export default class FormFile extends React.Component {
             if (result.error) throw new Error(result.error);
 
             this.setState({ countRow: result.count, isShowPreview: true, previewList: result.previewList });
-            debugger
             input.target.files = files;
         } catch (er) {
             input.target.value = "";

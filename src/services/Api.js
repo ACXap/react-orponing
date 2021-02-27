@@ -76,7 +76,9 @@ export default class Api {
             return await response.json();
         }
 
-        throw new Error(response.statusText);
+        const resultError = await response.json();
+        console.log(resultError);
+        throw new Error(`${resultError.error}  ${resultError.message}`);
     }
 
     async _getText(response) {
@@ -84,7 +86,9 @@ export default class Api {
             return await response.text();
         }
 
-        throw new Error(response.statusText);
+        const resultError = await response.json();
+        console.log(resultError);
+        throw new Error(`${resultError.error}  ${resultError.message}`);
     }
 
     _getHeadersPost() {

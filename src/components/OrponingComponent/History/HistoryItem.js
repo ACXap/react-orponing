@@ -54,11 +54,11 @@ export default class HistoryItem extends React.Component {
         const item = this.props.item;
         const canDownload = item.status === "COMPLETED" && item.taskId;
         return (
-            <tr className={this.getColor(item.status)}>
+            <tr className={this.getColor(item.status)} title={`${item.status} ${item.message}`}>
                 <td className="text-center">{item.id}</td>
                 <td className="text-center">{item.date}</td>
                 <td>{item.name}</td>
-                <td className="text-center" >{item.countRecord}</td>
+                <td className="text-center">{item.countRecord}</td>
                 <td className="text-center" >
                     {item.taskId ? <FontAwesomeIcon icon={faSync} cursor="pointer" spin={this.state.processing} onClick={this.update} /> : ""}</td>
                 <td className="text-center">
