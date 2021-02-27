@@ -1,5 +1,4 @@
 export default class ServiceOrponing {
-    onUpdateTask = () => { console.warn("no listener onUpdateTask") };
     onAddTask = () => { console.warn("no listener onAddTask") };
 
     constructor(api) {
@@ -13,18 +12,13 @@ export default class ServiceOrponing {
             this.onAddTask({ status: "START", name: name, taskId: idTask, countRecord: list.length, dateStatus: new Date(), message: "" });
 
             while (true) {
-                await this.delay(5000);
-
                 let result = await this.getStatus(idTask);
-
                 if (result.status === "COMPLETED") {
-                    this.onUpdateTask(idTask, { status: result.status, dateStatus: new Date(), message: result.message });
                     result = await this.getResult(idTask);
                     return { data: this.convertAddressInfoToString(result, list), error: null }
                 }
             }
         } catch (e) {
-            this.onUpdateTask(idTask, { status: "ERROR", dateStatus: new Date(), message: e.message });
             return { data: "", error: e.message };
         }
     }
@@ -34,7 +28,6 @@ export default class ServiceOrponing {
     }
 
     async getStatus(idTask) {
-        await this.delay(5222);
         return await this.api.apiGetStatusTask(idTask);
     }
 
@@ -47,7 +40,6 @@ export default class ServiceOrponing {
 
         const data = [];
         data.push("id;Address;GlobalId;AddressOrpon;ParsingLevelCode;QualityCode;UnparsedParts;Error");
-
         addressInfo.forEach(el => {
             data.push(`${el.Id};${list.find(e => e.Id == el.Id).Address};${el.GlobalId ?? ""};${el.AddressOrpon ?? ""};${el.ParsingLevelCode ?? ""};${el.QualityCode ?? ""};${el.UnparsedParts ?? ""};${el.Error ?? ""}`);
         });

@@ -14,4 +14,8 @@ export default class ServiceOrponingComponent {
     async startService(id) {
         return await this.api.apiStartService(id);
     }
+
+    delay(delay) {
+        return new Promise(resolve => setTimeout(resolve, delay));
+    }
 }

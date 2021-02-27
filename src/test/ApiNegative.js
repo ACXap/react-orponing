@@ -1,4 +1,7 @@
 export default class ApiNegative {
+    constructor(url) {
+        this.BASE_URL = url;
+    }
     async apiClearArchive(password) {
         throw new Error("apiClearArchive");
     }

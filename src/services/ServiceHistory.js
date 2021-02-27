@@ -5,7 +5,6 @@ export default class ServiceHistory {
     constructor(serviceOrponing) {
         this.serviceOrponing = serviceOrponing;
         this.serviceOrponing.onAddTask = (task) => this.addTask(task);
-        this.serviceOrponing.onUpdateTask = (taskId, status) => this.updateTask(taskId, status);
     }
 
     addTask(task) {
@@ -33,7 +32,10 @@ export default class ServiceHistory {
     }
 
     setHistory(list) {
-        window.localStorage.setItem("history", JSON.stringify(list));
+        window.localStorage.setItem("history", JSON.stringify(list.map((h, index) => {
+            h.id = index + 1;
+            return h;
+        })));
         this.onUpdateHistory(list);
     }
 

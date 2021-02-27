@@ -14,31 +14,30 @@ export default class App extends React.Component {
         this.state = { modal: this.createModal(false, "", "") }
     }
 
-    openModal(message, title) {
-        this.setState({ modal: this.createModal(true, message, title) });
-    }
-
-    createModal(isShow, message, title) {
-        return { isShow, message, title }
-    }
+    openModal = (message, title) => { this.setState({ modal: this.createModal(true, message, title) }); }
+    closeModal = () => { this.setState({ modal: this.createModal(false, "", "") }); }
+    createModal = (isShow, message, title) => ({ isShow, message, title });
 
     render() {
+        window.countRender++;
+        console.log("render app");
+
         const { isShow, message, title } = this.state.modal
         return (
-            <div>
-                { this.state.modal.isShow ? <Modal isShow={isShow}
+            <React.Fragment>
+                {this.state.modal.isShow ? <Modal isShow={isShow}
                     message={message}
                     title={title}
-                    onClose={() => this.setState({ modal: this.createModal(false, "", "") })} /> : ""}
+                    onClose={this.closeModal} /> : ""}
 
                 <BrowserRouter>
                     <NavControlB />
-                    <Route exact path="/" render={() => <Orponing notifyError={(m, t) => this.openModal(m, t)} />} />
-                    <Route path="/about" render={() => <About notifyError={(m, t) => this.openModal(m, t)} />} />
-                    <Route path="/logs" render={() => <Log notifyError={(m, t) => this.openModal(m, t)} />} />
-                    <Route path="/orponing-service" render={() => <OrponingService notifyError={(m, t) => this.openModal(m, t)} />} />
-                </BrowserRouter >
-            </div >
+                    <Route exact path="/"><Orponing notifyError={this.openModal} /></Route>
+                    <Route path="/about"><About notifyError={this.openModal} /></Route>
+                    <Route path="/logs"><Log notifyError={this.openModal} /></Route>
+                    <Route path="/orponing-service"><OrponingService notifyError={this.openModal} /></Route>
+                </BrowserRouter>
+            </React.Fragment>
         );
     }
 }

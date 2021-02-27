@@ -1,4 +1,8 @@
 export default class ApiPositive {
+    constructor(url) {
+        this.BASE_URL = url;
+    }
+
     async apiClearArchive(password) {
         if (password === "yes") return { status: "COMPLETED" }
         return { status: "ERROR", message: "Error password" }

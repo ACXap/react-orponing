@@ -1,8 +1,11 @@
 import React from "react";
 import PreviewItem from "./PreviewItem";
 
-export default class PreviewOrponing extends React.Component {
+export default class PreviewOrponing extends React.PureComponent {
     render() {
+        window.countRender++;
+        console.log("render PreviewOrponing");
+
         const listP = this.props.list.map(el => <PreviewItem id={el.Id} address={el.Address} key={el.Id} isValid={parseInt(el.Id)} />);
 
         return (

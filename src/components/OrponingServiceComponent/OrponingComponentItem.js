@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { serviceOrponingComponent } from "../../init";
 
-export default class OrponingComponentItem extends React.Component {
+export default class OrponingComponentItem extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,31 +16,33 @@ export default class OrponingComponentItem extends React.Component {
             status: "STOP",
             message: "",
             dateStatus: new Date().toLocaleString(),
-            isLoadStatus: false
+            processing: true
         };
     }
 
     async componentDidMount() {
-        this.clickSync();
+        this.updateStatus((id) => serviceOrponingComponent.getStatusService(id));
     }
 
     async updateStatus(excute) {
-        this.setState({ isLoadStatus: true });
+        this.setState({ processing: true });
 
         try {
-            const result = await excute();
-            this.setState({ isLoadStatus: false, status: result.status, message: result.message, dateStatus: result.dateStatus });
+            const result = await excute(this.state.id);
+            this.setState({ processing: false, status: result.status, message: result.message, dateStatus: result.dateStatus });
         } catch (e) {
-            this.setState({ isLoadStatus: false, status: "ERROR", message: e.message, dateStatus: new Date() });
+            debugger
+            this.setState({ processing: false, status: "ERROR", message: e.message, dateStatus: new Date() });
         }
     }
 
-    clickSync() {
-        this.updateStatus(() => serviceOrponingComponent.getStatusService(this.state.id));
+    clickSync = () => {
+        if (this.state.processing) return;
+        this.updateStatus((id) => serviceOrponingComponent.getStatusService(id));
     }
-
-    clickStart() {
-        this.updateStatus(() => serviceOrponingComponent.startService(this.state.id));
+    clickStart = () => {
+        if (this.state.processing) return;
+        this.updateStatus((id) => serviceOrponingComponent.startService(id));
     }
 
     getIcon(icon) {
@@ -58,7 +60,8 @@ export default class OrponingComponentItem extends React.Component {
     }
 
     render() {
-        const p = { cursor: "pointer" };
+        window.countRender++;
+        console.log("render OrponingComponentItem");
 
         return (
             <div className="col">
@@ -81,15 +84,14 @@ export default class OrponingComponentItem extends React.Component {
                         <div className="row">
                             <div className="col-sm-6">
                                 <FontAwesomeIcon icon={faSync}
-                                    style={p}
-                                    spin={this.state.isLoadStatus}
-                                    onClick={() => this.clickSync()}
+                                    cursor="pointer"
+                                    spin={this.state.processing}
+                                    onClick={this.clickSync}
                                     title="Обновить статус компонента" />
                             </div>
                             {this.state.isStartable ? <div className="col-sm-6">
-                                <FontAwesomeIcon icon={faPlay}
-                                    style={p}
-                                    onClick={() => this.clickStart()}
+                                <FontAwesomeIcon icon={faPlay} cursor="pointer"
+                                    onClick={this.clickStart}
                                     title="Запустить компонент" />
                             </div> : ""}
                         </div>

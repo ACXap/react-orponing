@@ -2,13 +2,14 @@ import React from "react";
 import { serviceHistory } from "../../../init";
 import HistoryItem from "./HistoryItem";
 
-export default class History extends React.Component {
+export default class History extends React.PureComponent {
     constructor(props) {
         super(props);
 
         this.state = {
             listHistory: serviceHistory.getHistory()
         }
+
         this.notifyError = props.notifyError;
         serviceHistory.onUpdateHistory = (list) => this.onUpdateHistory(list);
     }
@@ -26,15 +27,20 @@ export default class History extends React.Component {
     }
 
     render() {
-        const list = this.state.listHistory;
+        window.countRender++;
+        console.log("render History");
+
+        const listItem = this.state.listHistory.map((i) => <HistoryItem item={i} key={i.taskId}
+            onUpdate={this.updateItem}
+            onRemove={this.removeItem} />);
 
         return (
             <div hidden={this.props.hidden}>
-                {list.length === 0 ?
+                {listItem.length === 0 ?
                     <h3 className="text-center clear py-5">История пуста</h3>
                     :
-                    <div className="p-5">
-                        <table className="table table-hover">
+                    <div className="p-5" style={{ maxHeight: "700px", overflow: "auto" }}>
+                        <table className="table table-hover" >
                             <thead>
                                 <tr>
                                     <th className="col-0 text-center" scope="col">№</th>
@@ -47,9 +53,7 @@ export default class History extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {list.map((i) => <HistoryItem item={i} key={i.taskId}
-                                    onUpdate={() => this.updateItem(i.taskId)}
-                                    onRemove={() => this.removeItem(i.taskId)} />)}
+                                {listItem}
                             </tbody>
                         </table>
                     </div>}

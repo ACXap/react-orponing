@@ -4,13 +4,15 @@ import { serviceLog } from "../../init";
 
 import LogItem from "./LogItem";
 import ProcessingOrponing from "../ProcessingOrponing";
+import HeaderPage from "../HeaderPage";
+import { Button } from "react-bootstrap";
 
-export default class Log extends React.Component {
+export default class Log extends React.PureComponent {
     constructor(props) {
         super(props);
 
         this.state = {
-            processing: false,
+            processing: true,
             log: "",
             listHistory: []
         }
@@ -20,63 +22,49 @@ export default class Log extends React.Component {
     }
 
     async componentDidMount() {
-        this.loadLogForToday();
-        this.loadListLog();
+        this.init();
     }
 
     componentDidUpdate() {
         this.textLog.current.scrollTop = this.textLog.current.scrollHeight;;
     }
 
-    async loadLogForToday() {
+    init = async () => {
         this.setState({ processing: true });
 
         try {
-            const log = await serviceLog.loadLog();
-            this.setState({ log: log });
+            const [logText, logAll] = await Promise.all([serviceLog.loadLog(), serviceLog.getAllLogs()]);
+            this.setState({ log: logText, listHistory: logAll, processing: false });
         } catch (e) {
-            this.setState({ log: "" });
-            this.notifyError(e.message, "Ошибка загрузки текущего лога");
-        } finally {
-            this.setState({ processing: false });
+            this.setState({ log: "", listHistory: [], processing: false });
+            this.notifyError(e.message, "Ошибка загрузки логов");
         }
     }
 
-    async loadListLog() {
-        try {
-            const log = await serviceLog.getAllLogs();
-            this.setState({ listHistory: log });
-        } catch (e) {
-            this.notifyError(e.message, "Ошибка загрузки списка логов");
-        }
-    }
-
-    async clearArchive() {
+    clearArchive = async () => {
+        if (this.state.processing) return;
         const password = window.prompt("Укажите пароль для операции:");
-        if (password) {
-            this.setState({ processing: true });
+        if (!password) return;
 
-            try {
-                const result = await serviceLog.clearArchive(password);
+        this.setState({ processing: true });
 
-                if (result.status === "COMPLETED") {
-                    this.setState({ listHistory: [] });
-                } else {
-                    this.notifyError(result.message, "Ошибка очистки логов");
-                }
-            } catch (e) {
-                this.notifyError(e.message, "Ошибка очистки логов");
-            } finally {
-                this.setState({ processing: false });
-            }
+        try {
+            const result = await serviceLog.clearArchive(password);
+            if (result.status != "COMPLETED") throw new Error(result.message);
+            this.setState({ listHistory: [], processing: false });
+        } catch (e) {
+            this.setState({ processing: false });
+            this.notifyError(e.message, "Ошибка очистки логов");
         }
     }
 
-    async clickItemLog(log) {
+    clickItemLog = async (log) => {
+        if (this.state.processing) return;
         this.setState({ processing: true });
+
         try {
-            const l = await serviceLog.readLog(log);
-            this.setState({ log: l, processing: false });
+            const logText = await serviceLog.readLog(log);
+            this.setState({ log: logText, processing: false });
         } catch (e) {
             this.setState({ log: "", processing: false });
             this.notifyError(e.message, "Ошибка загрузки лога");
@@ -84,39 +72,35 @@ export default class Log extends React.Component {
     }
 
     render() {
-        const listLog = this.state.listHistory.map((i, index) => <LogItem item={i} onClickItem={() => this.clickItemLog(i)} key={index} />);
+        window.countRender++;
+        console.log("render Log");
+
+        const listLog = this.state.listHistory.map((i, index) => <LogItem item={i} onClickItem={this.clickItemLog} key={index} />);
 
         return (
             <div className="container p-5 shadow-lg">
-                <div className="row p-5 text-center">
-                    <h2>События у сервиса орпонизации</h2>
-                </div>
+                <HeaderPage header="События у сервиса орпонизации" />
                 <div className="container border border-primary">
                     <div className="row p-2">
-
-                        <div className="col-sm-10 px-1">
-                            <textarea className="form-control p-2" ref={this.textLog} value={this.state.log} style={{ height: "600px" }}
-                                onChange={() => { }} />
-                            {this.state.processing ? <ProcessingOrponing message="Обработка запроса..." /> : ""}
+                        <div className="col-sm-10 px-1 d-flex align-items-center justify-content-center">
+                            <textarea className="form-control p-2" ref={this.textLog} defaultValue={this.state.log} style={{ height: "600px", minHeight: "600px" }} />
+                            {this.state.processing ? <div className="position-absolute"><ProcessingOrponing message="Обработка запроса..." /></div> : ""}
                         </div>
-
                         <div className="col-sm-2 px-1 border d-flex flex-column">
-                            <div className="d-flex justify-content-center pt-2">
+                            <div className="text-center pt-2">
                                 <h3>Архив</h3>
                             </div>
                             <div className="overflow-auto text-center" style={{ maxHeight: "470px" }}>
                                 {listLog}
                             </div>
-
                             <div className="mt-auto mx-auto p-2">
-                                <button className="btn btn-primary" type="button" onClick={() => this.clearArchive()}>Очистить архив</button>
+                                <Button disabled={this.state.processing} onClick={this.clearArchive} children="Очистить архив" />
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div className="row p-5">
-                    <button className="btn btn-primary" type="button" onClick={() => this.loadLogForToday()}>Что случилось сегодня?</button>
+                    <Button disabled={this.state.processing} onClick={this.init} children="Что случилось сегодня?" />
                 </div>
             </div >
         );

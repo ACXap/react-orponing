@@ -20,8 +20,8 @@ export default class FormFile extends React.Component {
         this.notifyError = props.notifyError;
     }
 
-    async orponing() {
-        if (this.state.countRow === 0) return;
+    orponing = async () => {
+        if (this.state.countRow === 0 || this.state.processing) return;
 
         try {
             this.setState({ processing: true });
@@ -35,16 +35,18 @@ export default class FormFile extends React.Component {
         }
     }
 
-    onChange(e) {
+    onChange = (e) => {
         this.initListAddress(e.currentTarget.files, e)
     }
 
-    ondrop(e) {
+    ondrop = (e) => {
         this.ondragleave(e);
         this.initListAddress(e.dataTransfer.files, e)
     }
 
-    async initListAddress(files, input) {
+    initListAddress = async (files, input) => {
+        if (this.state.processing) return;
+
         try {
             const result = await serviceOrponingFile.initListAddress(files[0]);
             if (result.error) throw new Error(result.error);
@@ -58,14 +60,14 @@ export default class FormFile extends React.Component {
         }
     }
 
-    ondragover(e) {
+    ondragover = (e) => {
         e.stopPropagation();
         e.preventDefault();
         e.target.classList.add("bg-secondary");
         e.target.parentElement.classList.add("bg-secondary");
     }
 
-    ondragleave(e) {
+    ondragleave = (e) => {
         e.stopPropagation();
         e.preventDefault();
         e.target.classList.remove("bg-secondary");
@@ -73,16 +75,19 @@ export default class FormFile extends React.Component {
     }
 
     render() {
+        window.countRender++;
+        console.log("render FormFile");
+
         return (
             <div hidden={this.props.hidden}>
                 <div className="input-group p-5">
-                    <input className="form-control" type="file"
-                        onDrop={e => this.ondrop(e)} value={this.state.files}
-                        onDragLeave={e => this.ondragleave(e)}
-                        onDragOver={e => this.ondragover(e)}
-                        onChange={e => this.onChange(e)} />
+                    <input className="form-control" type="file" disabled={this.state.processing}
+                        onDrop={this.ondrop} value={this.state.files}
+                        onDragLeave={this.ondragleave}
+                        onDragOver={this.ondragover}
+                        onChange={this.onChange} />
                     <button className="btn btn-primary" disabled={this.state.processing} type="button"
-                        onClick={() => this.orponing()}>Орпонизируй меня полностью</button>
+                        onClick={this.orponing}>Орпонизируй меня полностью</button>
                 </div>
                 <div className="px-2">Всего записей: {this.state.countRow}</div>
 

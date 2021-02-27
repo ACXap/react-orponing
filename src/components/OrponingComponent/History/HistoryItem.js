@@ -14,25 +14,29 @@ export default class HistoryItem extends React.Component {
             taskId: i.taskId,
             countRecord: i.countRecord,
             date: i.date,
-            isProcessing: false
+            processing: false
         };
 
-        this.notifyError = props.notifyError
-        this.onRemove = props.onRemove;
+        this.notifyError = props.notifyError;
+        this.onRemove = () => props.onRemove(i.taskId);
         this.onUpdate = props.onUpdate;
     }
 
     componentDidUpdate() {
-        if (this.props.item.status != "START" && this.state.isProcessing) this.setState({ isProcessing: false });
+        if (this.props.item.status != "START" && this.state.processing) this.setState({ processing: false });
     }
 
     onDownload() {
+        if (this.state.processing) return;
+
         console.log(this.state.id);
     }
 
-    update() {
-        this.setState({ isProcessing: true });
-        this.onUpdate();
+    update = () => {
+        if (this.state.processing) return;
+
+        this.setState({ processing: true });
+        this.onUpdate(this.state.taskId);
     }
 
     getColor(status) {
@@ -44,7 +48,11 @@ export default class HistoryItem extends React.Component {
     }
 
     render() {
+        window.countRender++;
+        console.log("render HistoryItem");
+
         const item = this.props.item;
+        const canDownload = item.status === "COMPLETED" && item.taskId;
         return (
             <tr className={this.getColor(item.status)}>
                 <td className="text-center">{item.id}</td>
@@ -52,10 +60,10 @@ export default class HistoryItem extends React.Component {
                 <td>{item.name}</td>
                 <td className="text-center" >{item.countRecord}</td>
                 <td className="text-center" >
-                    {item.taskId ? <FontAwesomeIcon icon={faSync} spin={this.state.isProcessing} onClick={() => this.update()} /> : ""}</td>
+                    {item.taskId ? <FontAwesomeIcon icon={faSync} cursor="pointer" spin={this.state.processing} onClick={this.update} /> : ""}</td>
                 <td className="text-center">
-                    {(item.status === "COMPLETED" && item.taskId) ? <FontAwesomeIcon icon={faDownload} onClick={() => this.onDownload()} /> : ""} </td>
-                <td className="text-center"><FontAwesomeIcon icon={faTrash} onClick={() => this.onRemove()} /></td>
+                    {canDownload ? <FontAwesomeIcon cursor="pointer" icon={faDownload} onClick={this.onDownload} /> : ""}  </td>
+                <td className="text-center"><FontAwesomeIcon cursor="pointer" icon={faTrash} onClick={this.onRemove} /></td>
             </tr>
         );
     }

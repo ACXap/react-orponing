@@ -19,14 +19,13 @@ export default class FormClipboard extends React.Component {
         this.notifyError = props.notifyError;
     }
 
-    async orponing() {
-        if (this.state.countRow === 0) return;
+    orponing = async () => {
+        if (this.state.countRow === 0 || this.state.processing) return;
 
         try {
             this.setState({ processing: true });
             const result = await serviceOrponingClipboard.orponing();
             if (result.error) throw new Error(result.error);
-
             this.setState({ resultFile: result.data, isShowPreview: false, previewList: [], processing: false })
         } catch (e) {
             this.notifyError(e.message, "Ошибка орпонизации");
@@ -34,15 +33,13 @@ export default class FormClipboard extends React.Component {
         }
     }
 
-    async initListAddress() {
-        if (!navigator.clipboard) return;
+    initListAddress = async () => {
+        if (!navigator.clipboard || this.state.processing) return;
 
         try {
             const data = await navigator.clipboard.readText();
             if (!data) throw new Error("В буфере обмена нет подходящих данных");
-
             const result = serviceOrponingClipboard.initListAddress(data);
-
             if (result.error) throw new Error(result.error);
             this.setState({ countRow: result.count, isShowPreview: true, previewList: result.previewList });
         } catch (e) {
@@ -52,19 +49,22 @@ export default class FormClipboard extends React.Component {
     }
 
     render() {
+        window.countRender++;
+        console.log("render FormClipboard");
+
         return (
             <div hidden={this.props.hidden}>
                 <div className="d-flex p-5">
-                    <button className="btn btn-primary" type="button"
-                        onClick={() => this.initListAddress()}>Вставить данные из буфера обмена</button>
+                    <button className="btn btn-primary" type="button" disabled={this.state.processing}
+                        onClick={this.initListAddress}>Вставить данные из буфера обмена</button>
                     <button className="btn btn-primary ms-auto" type="button" disabled={this.state.processing}
-                        onClick={() => this.orponing()}>Орпонизируй меня полностью</button>
+                        onClick={this.orponing}>Орпонизируй меня полностью</button>
                 </div>
                 <div className="px-2">Всего записей: {this.state.countRow}</div>
 
-                { this.state.processing ? <ProcessingOrponing message="Обработка запроса..." /> : ""}
-                { this.state.resultFile ? <FileResult result={this.state.resultFile} nameDownload="clipboard.csv" /> : ""}
-                { this.state.isShowPreview ? <PreviewOrponing list={this.state.previewList} /> : ""}
+                { this.state.processing ? <ProcessingOrponing message="Обработка запроса..." /> : null}
+                { this.state.resultFile ? <FileResult result={this.state.resultFile} nameDownload="clipboard.csv" /> : null}
+                { this.state.isShowPreview ? <PreviewOrponing list={this.state.previewList} /> : null}
             </div>
         )
     }

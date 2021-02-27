@@ -1,11 +1,13 @@
 import React from "react";
 import AboutSimpleText from "./AboutSimpleText";
 
-export default class About extends React.Component {
+export default class About extends React.PureComponent {
     render() {
+        window.countRender++;
+        console.log("render About");
+
         return (
             <div className="container p-5 shadow-lg overflow-auto" style={{ maxHeight: "1080px" }}>
-
                 <AboutSimpleText header="ОРПОН">
                     <p className="lead">Отраслевое решение «паспортизация объектов недвижимости» - система управления адресной
                     информацией и информацией об объектах недвижимости</p>
@@ -187,7 +189,7 @@ export default class About extends React.Component {
 }`} />
                     </div>
                 </AboutSimpleText>
-            </div >
+            </div>
         )
     }
 }
