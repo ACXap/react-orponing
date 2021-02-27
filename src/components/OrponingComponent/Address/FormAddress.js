@@ -16,7 +16,15 @@ export default class FormAddress extends React.Component {
         this.notifyError = props.notifyError;
     }
 
+    handleClickKey = (e) => {
+        if (e.keyCode != 13) return;
+        e.preventDefault();
+        this.orponing();
+    }
+
     orponing = async () => {
+        if (this.state.processing) return;
+
         try {
             const address = this.state.requestAddress;
 
@@ -32,6 +40,7 @@ export default class FormAddress extends React.Component {
             }
         } catch (e) {
             this.setState({ processing: false, resultAddress: null });
+            history.push({ resultAddress: null });
             this.notifyError(e.message, "Ошибка орпонизации адреса");
         }
     }
@@ -47,7 +56,7 @@ export default class FormAddress extends React.Component {
         return (
             <div hidden={this.props.hidden}>
                 <div className="input-group p-5">
-                    <input type="text" className="form-control" placeholder="Адрес" value={this.state.requestAddress}
+                    <input type="text" className="form-control" placeholder="Адрес" value={this.state.requestAddress} onKeyDown={this.handleClickKey}
                         onChange={this.setAddress} />
                     <button className="btn btn-primary" disabled={this.state.processing} type="button"
                         onClick={this.orponing}>Орпонизируй меня полностью</button>

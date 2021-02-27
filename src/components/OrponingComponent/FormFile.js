@@ -1,5 +1,5 @@
 import React from "react";
-import { serviceOrponingFile } from "../../init";
+import { serviceOrponingFile, history } from "../../init";
 
 import ProcessingOrponing from "../ProcessingOrponing";
 import FileResult from "./FileResult";
@@ -27,21 +27,11 @@ export default class FormFile extends React.Component {
             this.setState({ processing: true });
             const result = await serviceOrponingFile.orponing();
             if (result.error) throw new Error(result.error);
-
-            this.setState({ resultFile: result.data, isShowPreview: false, previewList: [], processing: false })
+            this.setState({ resultFile: result.data, isShowPreview: false, previewList: [], processing: false });
         } catch (e) {
             this.notifyError(e.message, "Ошибка орпонизации");
             this.setState({ processing: false, resultFile: "" })
         }
-    }
-
-    onChange = (e) => {
-        this.initListAddress(e.currentTarget.files, e)
-    }
-
-    ondrop = (e) => {
-        this.ondragleave(e);
-        this.initListAddress(e.dataTransfer.files, e)
     }
 
     initListAddress = async (files, input) => {
@@ -52,12 +42,22 @@ export default class FormFile extends React.Component {
             if (result.error) throw new Error(result.error);
 
             this.setState({ countRow: result.count, isShowPreview: true, previewList: result.previewList });
+            debugger
             input.target.files = files;
         } catch (er) {
             input.target.value = "";
             this.setState({ countRow: 0, isShowPreview: false, previewList: [] });
             this.notifyError(er.message, "Ошибка обработки данных");
         }
+    }
+
+    onChange = (e) => {
+        this.initListAddress(e.currentTarget.files, e)
+    }
+
+    ondrop = (e) => {
+        this.ondragleave(e);
+        this.initListAddress(e.dataTransfer.files, e)
     }
 
     ondragover = (e) => {

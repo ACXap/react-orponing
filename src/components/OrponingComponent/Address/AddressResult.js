@@ -1,7 +1,14 @@
 import React from "react";
 import AddressResultItem from "./AddressResultItem";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default class AddressResult extends React.Component {
+export default class AddressResult extends React.PureComponent {
+
+    handleClickCopy = () => {
+        navigator.clipboard.writeText(`Адрес: ${this.props.result.AddressOrpon} ГИД: ${this.props.result.GlobalId}`);
+    }
+
     render() {
         window.countRender++;
         console.log("render AddressResult");
@@ -13,8 +20,11 @@ export default class AddressResult extends React.Component {
         return (
             <div className="container border p-3 mt-2">
                 <div className="row">
-                    <div className="text-center">
-                        <h3 className={cn}>{header}</h3>
+                    <div className="row">
+                        <div className="col-sm-11 text-center"> <h3 className={cn}>{header}</h3></div>
+                        <div className="col-sm-1" hidden={!IsValid}>
+                            <FontAwesomeIcon color="green" icon={faCopy} size="2x" cursor="pointer" title="Скопировать результат" onClick={this.handleClickCopy} />
+                        </div>
                     </div>
 
                     {IsValid ? null : <AddressResultItem value={Error} title="Ошибка" className="col-sm-12" />}

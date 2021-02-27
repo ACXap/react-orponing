@@ -1,5 +1,6 @@
 import React from "react";
-import { serviceOrponingClipboard } from "../../init";
+import { serviceOrponingClipboard, history } from "../../init";
+
 import ProcessingOrponing from "../ProcessingOrponing";
 import FileResult from "./FileResult";
 import PreviewOrponing from "./Preview/PreviewOrponing";
