@@ -10,7 +10,7 @@ import ServiceOrponingFile from "./services/ServiceOrponingFile.js";
 import ServiceHistory from "./services/ServiceHistory.js";
 import { createBrowserHistory } from 'history';
 
-const BASE_URL = "";
+const BASE_URL = "/api/1.0/";
 
 const api = new Api(BASE_URL);
 const serviceOrponing = new ServiceOrponing(api);

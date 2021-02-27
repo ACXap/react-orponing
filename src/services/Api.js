@@ -4,7 +4,7 @@ export default class Api {
     }
 
     async apiGetLog() {
-        const response = await fetch(this.BASE_URL + "/log", {
+        const response = await fetch(this.BASE_URL + "log", {
             method: 'POST',
             headers: this._getHeadersPost()
         });
@@ -12,7 +12,7 @@ export default class Api {
     }
 
     async apiGetLogFile(file) {
-        const response = await fetch(this.BASE_URL + "/log/read?file=" + file, {
+        const response = await fetch(this.BASE_URL + "log/read?file=" + file, {
             method: 'GET',
             headers: this._getHeadersPost()
         });
@@ -20,7 +20,7 @@ export default class Api {
     }
 
     async apiGetAllLogs() {
-        const response = await fetch(this.BASE_URL + "/log/files", {
+        const response = await fetch(this.BASE_URL + "log/files", {
             method: 'GET',
             headers: this._getHeadersPost()
         });
@@ -28,32 +28,32 @@ export default class Api {
     }
 
     async apiClearArchive(password) {
-        const response = await fetch(this.BASE_URL + "/log/clear?password=" + password);
-        return this._getJson(response);
-    }
-
-    async apiOrponingAddress(address) {
-        const response = await fetch(this.BASE_URL + "/api/get_global_id?address=" + address);
+        const response = await fetch(this.BASE_URL + "log/clear?password=" + password);
         return this._getJson(response);
     }
 
     async apiGetListServices() {
-        const response = await fetch(this.BASE_URL + "/orponing_service/all_services");
+        const response = await fetch(this.BASE_URL + "orponing_service/all_services");
         return this._getJson(response);
     }
 
     async apiStartService(id) {
-        const response = await fetch(this.BASE_URL + `/orponing_service/${id}/start`);
+        const response = await fetch(this.BASE_URL + `orponing_service/${id}/start`);
         return this._getJson(response);
     }
 
     async apiGetStatusService(id) {
-        const response = await fetch(this.BASE_URL + "/orponing_service/status?service=" + id);
+        const response = await fetch(this.BASE_URL + "orponing_service/status?service=" + id);
+        return this._getJson(response);
+    }
+
+    async apiOrponingAddress(address) {
+        const response = await fetch(this.BASE_URL + "get_global_id?address=" + address);
         return this._getJson(response);
     }
 
     async apiOrponingListAddress(listAddress) {
-        const response = await fetch(this.BASE_URL + "/api/get_global_id", {
+        const response = await fetch(this.BASE_URL + "get_global_id", {
             method: 'POST',
             headers: this._getHeadersPost(),
             body: JSON.stringify(listAddress)
@@ -62,12 +62,12 @@ export default class Api {
     }
 
     async apiGetStatusTask(id) {
-        const response = await fetch(this.BASE_URL + "/api/get_global_id/status?id=" + id);
+        const response = await fetch(this.BASE_URL + "get_global_id/status?id=" + id);
         return this._getJson(response);
     }
 
     async apiGetResultTask(id) {
-        const response = await fetch(this.BASE_URL + "/api/get_global_id/result?id=" + id);
+        const response = await fetch(this.BASE_URL + "get_global_id/result?id=" + id);
         return this._getJson(response);
     }
 
