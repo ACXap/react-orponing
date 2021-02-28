@@ -11,61 +11,53 @@ export default class FormClipboard extends React.Component {
 
         this.state = {
             processing: false,
-            countRow: 0,
-            isShowPreview: false,
-            previewList: [],
-            resultFile: ""
+            countRow: serviceOrponingClipboard.getCountRow() ?? 0,
+            previewList: serviceOrponingClipboard.getPreviewList() ?? [],
+            resultFile: serviceOrponingClipboard.getResult() ?? ""
         }
 
         this.notifyError = props.notifyError;
+        this.getResult = () => serviceOrponingClipboard.orponing();
+        this.initListAddress = (data) => serviceOrponingClipboard.initListAddress(data);
     }
 
     orponing = async () => {
         if (this.state.countRow === 0 || this.state.processing) return;
 
-        try {
-            this.setState({ processing: true });
-            const result = await serviceOrponingClipboard.orponing();
-            if (result.error) throw new Error(result.error);
-            this.setState({ resultFile: result.data, isShowPreview: false, previewList: [], processing: false })
-        } catch (e) {
-            this.notifyError(e.message, "Ошибка орпонизации");
-            this.setState({ processing: false, resultFile: "" })
-        }
+        this.setState({ processing: true });
+        const result = await this.getResult();
+        if (result.error) this.notifyError(result.error, "Ошибка орпонизации адресов");
+        this.setState({ resultFile: result.data, previewList: result.previewList, countRow: result.countRow, processing: false })
     }
 
-    initListAddress = async () => {
-        if (!navigator.clipboard || this.state.processing) return;
+    initList = async () => {
+        if (this.state.processing || !navigator.clipboard) return;
 
         try {
             const data = await navigator.clipboard.readText();
             if (!data) throw new Error("В буфере обмена нет подходящих данных");
-            const result = serviceOrponingClipboard.initListAddress(data);
-            if (result.error) throw new Error(result.error);
-            this.setState({ countRow: result.count, isShowPreview: true, previewList: result.previewList });
+            const result = this.initListAddress(data);
+            if (result.error) this.notifyError(result.error, "Ошибка обработки полученных данных");
+            this.setState({ countRow: result.count, previewList: result.previewList, resultFile: "" });
         } catch (e) {
-            this.notifyError(e.message, "Ошибка обработки данных");
-            this.setState({ countRow: 0, isShowPreview: false, previewList: [] });
+            this.notifyError(e.message, "Ошибка получения данных из буфера");
         }
     }
 
     render() {
-        window.countRender++;
-        console.log("render FormClipboard");
-
         return (
             <div hidden={this.props.hidden}>
                 <div className="d-flex p-5">
                     <button className="btn btn-primary" type="button" disabled={this.state.processing}
-                        onClick={this.initListAddress}>Вставить данные из буфера обмена</button>
+                        onClick={this.initList}>Вставить данные из буфера обмена</button>
                     <button className="btn btn-primary ms-auto" type="button" disabled={this.state.processing}
                         onClick={this.orponing}>Орпонизируй меня полностью</button>
                 </div>
                 <div className="px-2">Всего записей: {this.state.countRow}</div>
 
-                { this.state.processing ? <ProcessingOrponing message="Обработка запроса..." /> : null}
-                { this.state.resultFile ? <FileResult result={this.state.resultFile} nameDownload="clipboard.csv" /> : null}
-                { this.state.isShowPreview ? <PreviewOrponing list={this.state.previewList} /> : null}
+                { this.state.processing && <ProcessingOrponing message="Обработка запроса..." />}
+                { this.state.resultFile && <FileResult result={this.state.resultFile} nameDownload="clipboard.csv" />}
+                { this.state.previewList.length > 0 && <PreviewOrponing list={this.state.previewList} />}
             </div>
         )
     }

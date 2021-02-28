@@ -58,12 +58,12 @@ export default class ServiceOrponing {
             if (rows[0].split(";").length > 1) {
                 for (const row of rows) {
                     const items = row.split(";");
-                    list.push({ Id: items[0], Address: items[1] });
+                    list.push({ Id: items[0], Address: items[1]?.trim() });
                 }
             } else {
                 let index = 1;
                 for (const row of rows) {
-                    list.push({ Id: index++, Address: row });
+                    list.push({ Id: index++, Address: row?.trim() });
                 }
             }
         }

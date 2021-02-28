@@ -14,7 +14,7 @@ export default class FormAddress extends React.Component {
         }
 
         this.notifyError = props.notifyError;
-        this.getResultAddress = (adr) => serviceOrponingAddress.orponing(adr);
+        this.getResult = (adr) => serviceOrponingAddress.orponing(adr);
     }
 
     handleClickKey = (e) => {
@@ -27,12 +27,10 @@ export default class FormAddress extends React.Component {
         if (this.state.processing) return;
 
         const address = this.state.requestAddress;
-
         if (address) {
             this.setState({ processing: true });
 
-            const json = await this.getResultAddress(address);
-            debugger
+            const json = await this.getResult(address);
             if (json.error) this.notifyError(json.error, "Ошибка орпонизации адреса");
 
             this.setState({ processing: false, resultAddress: json.result });
@@ -44,19 +42,17 @@ export default class FormAddress extends React.Component {
     }
 
     render() {
-        window.countRender++;
-        console.log("render FormAddress");
-
         return (
             <div hidden={this.props.hidden}>
                 <div className="input-group p-5">
-                    <input type="text" className="form-control" placeholder="Адрес" value={this.state.requestAddress} onKeyDown={this.handleClickKey}
+                    <input className="form-control" disabled={this.state.processing} placeholder="Адрес" value={this.state.requestAddress}
+                        onKeyDown={this.handleClickKey}
                         onChange={this.setAddress} />
-                    <button className="btn btn-primary" disabled={this.state.processing} type="button"
+                    <button className="btn btn-primary" disabled={this.state.processing}
                         onClick={this.orponing}>Орпонизируй меня полностью</button>
                 </div>
                 {this.state.processing && <ProcessingOrponing message="Обработка запроса..." />}
-                {this.state.resultAddress ? <AddressResult result={this.state.resultAddress} /> : ""}
+                {this.state.resultAddress && <AddressResult result={this.state.resultAddress} />}
             </div>
         );
     }

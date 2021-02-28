@@ -8,7 +8,7 @@ export default class ServiceOrponingAddress {
     }
 
     async orponing(address) {
-        if (!address) throw new Error("Адрес пустой");
+        if (!address) return { result: null, error: "Адрес пустой" };
 
         this._lastAddress = address;
         try {

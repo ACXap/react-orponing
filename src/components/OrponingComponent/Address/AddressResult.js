@@ -1,7 +1,8 @@
 import React from "react";
-import AddressResultItem from "./AddressResultItem";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import AddressResultItem from "./AddressResultItem";
 
 export default class AddressResult extends React.PureComponent {
 
@@ -10,9 +11,6 @@ export default class AddressResult extends React.PureComponent {
     }
 
     render() {
-        window.countRender++;
-        console.log("render AddressResult");
-
         const { IsValid, Error, GlobalId, AddressOrpon, ParsingLevelCode, UnparsedParts, QualityCode, CheckStatus } = this.props.result;
         const header = IsValid ? "Адрес разобран" : "Адрес разобран c ошибками";
         const cn = IsValid ? "text-success" : "text-danger";
@@ -22,14 +20,14 @@ export default class AddressResult extends React.PureComponent {
                 <div className="row">
                     <div className="row">
                         <div className="col-sm-11 text-center"> <h3 className={cn}>{header}</h3></div>
-                        <div className="col-sm-1" hidden={!IsValid}>
+                        {IsValid && <div className="col-sm-1">
                             <FontAwesomeIcon color="green" icon={faCopy} size="2x" cursor="pointer" title="Скопировать результат" onClick={this.handleClickCopy} />
-                        </div>
+                        </div>}
                     </div>
 
-                    {IsValid ? null : <AddressResultItem value={Error} title="Ошибка" className="col-sm-12" />}
-                    {IsValid ? <AddressResultItem value={GlobalId} title="ГИД" className="col-sm-2" /> : null}
-                    {IsValid ? <AddressResultItem value={AddressOrpon} title="Адрес в системе ОРПОН" className="col-sm-10" /> : null}
+                    {!IsValid && <AddressResultItem value={Error} title="Ошибка" className="col-sm-12" />}
+                    {IsValid && <AddressResultItem value={GlobalId} title="ГИД" className="col-sm-2" />}
+                    {IsValid && <AddressResultItem value={AddressOrpon} title="Адрес в системе ОРПОН" className="col-sm-10" />}
                     <AddressResultItem value={ParsingLevelCode} title="Уровень разбора адреса" className="col-sm-3 py-1" />
                     <AddressResultItem value={UnparsedParts} title="Неразобранные части адреса" className="col-sm-3 py-1" />
                     <AddressResultItem value={QualityCode} title="Качество переданного адреса" className="col-sm-3 py-1" />
