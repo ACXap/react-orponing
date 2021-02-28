@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddressResultItem from "./AddressResultItem";
 
 export default class AddressResult extends React.PureComponent {
-
     handleClickCopy = () => {
         navigator.clipboard.writeText(`Адрес: ${this.props.result.AddressOrpon} ГИД: ${this.props.result.GlobalId}`);
     }

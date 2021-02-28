@@ -28,13 +28,11 @@ export default class HistoryItem extends React.Component {
 
     onDownload() {
         if (this.state.processing) return;
-
         console.log(this.state.id);
     }
 
     update = () => {
         if (this.state.processing) return;
-
         this.setState({ processing: true });
         this.onUpdate(this.state.taskId);
     }
@@ -48,9 +46,6 @@ export default class HistoryItem extends React.Component {
     }
 
     render() {
-        window.countRender++;
-        console.log("render HistoryItem");
-
         const item = this.props.item;
         const canDownload = item.status === "COMPLETED" && item.taskId;
         return (
@@ -60,9 +55,9 @@ export default class HistoryItem extends React.Component {
                 <td>{item.name}</td>
                 <td className="text-center">{item.countRecord}</td>
                 <td className="text-center" >
-                    {item.taskId ? <FontAwesomeIcon icon={faSync} cursor="pointer" spin={this.state.processing} onClick={this.update} /> : ""}</td>
+                    {item.taskId && <FontAwesomeIcon icon={faSync} cursor="pointer" spin={this.state.processing} onClick={this.update} />}</td>
                 <td className="text-center">
-                    {canDownload ? <FontAwesomeIcon cursor="pointer" icon={faDownload} onClick={this.onDownload} /> : ""}  </td>
+                    {canDownload && <FontAwesomeIcon cursor="pointer" icon={faDownload} onClick={this.onDownload} />}</td>
                 <td className="text-center"><FontAwesomeIcon cursor="pointer" icon={faTrash} onClick={this.onRemove} /></td>
             </tr>
         );

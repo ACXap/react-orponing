@@ -25,9 +25,6 @@ export default class TabControl extends React.PureComponent {
     }
 
     render() {
-        window.countRender++;
-        console.log("render TabControl");
-
         return (
             <div className="tab-panel-tabs p-2">
                 <TabItem name="Адрес" title="Орпонизация одиночного адреса"

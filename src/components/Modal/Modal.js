@@ -1,11 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button } from "react-bootstrap";
 
 export default class Modal extends React.Component {
     render() {
-        window.countRender++;
-        console.log("render Modal");
+        if (!this.props.isShow) return null;
 
         return (
             <div>

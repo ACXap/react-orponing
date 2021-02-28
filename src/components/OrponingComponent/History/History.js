@@ -27,9 +27,6 @@ export default class History extends React.PureComponent {
     }
 
     render() {
-        window.countRender++;
-        console.log("render History");
-
         const listItem = this.state.listHistory.map((i) => <HistoryItem item={i} key={i.taskId}
             onUpdate={this.updateItem}
             onRemove={this.removeItem} />);

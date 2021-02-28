@@ -3,9 +3,6 @@ import AboutSimpleText from "./AboutSimpleText";
 
 export default class About extends React.PureComponent {
     render() {
-        window.countRender++;
-        console.log("render About");
-
         return (
             <div className="container p-5 shadow-lg overflow-auto" style={{ maxHeight: "1080px" }}>
                 <AboutSimpleText header="ОРПОН">
@@ -66,7 +63,7 @@ export default class About extends React.PureComponent {
                 </AboutSimpleText>
 
                 <AboutSimpleText header="API">
-                    <h5>Орпонизация одиночного адреса - это GET запрос на адрес /get_globalid?address={`{требуемый адрес}`}</h5>
+                    <h5>Орпонизация одиночного адреса - это GET запрос на адрес /api/1.0/get_globalid?address={`{требуемый адрес}`}</h5>
                     <div className="form-floating mx-5">
                         <textarea className="form-control p-1" style={{ height: "280px", width: "800px" }} defaultValue={`{
         Id: 1,
@@ -80,7 +77,7 @@ export default class About extends React.PureComponent {
         AddressOrpon: "630088, Новосибирская обл, Новосибирск г., Зорге ул., дом 1
 }`} /></div>
 
-                    <h5>Орпонизация списка адресов - это POST запрос на адрес /api/get_global_id</h5>
+                    <h5>Орпонизация списка адресов - это POST запрос на адрес /api/1.0/get_global_id</h5>
                     <p className="lead">И в ответ будет уникальный GIUD задачи, пример: deb74f17-d553-45ed-b45c-24cd5c9c3406.<br />
             Тело запроса при этом:</p>
 
@@ -90,7 +87,7 @@ export default class About extends React.PureComponent {
         { "Id":"2","Address":"165150, Архангельская обл, Вельский р-н, Вельск г., Гайдара ул., дом 14" };
 ]`} /></div>
 
-                    <h5>Получить статус выполняемой задачи - это GET запрос на адрес /api/get_global_id/status?id=&#123;уникальный GUID
+                    <h5>Получить статус выполняемой задачи - это GET запрос на адрес /api/1.0/get_global_id/status?id=&#123;уникальный GUID
             полученный ранее&#125; </h5>
                     <div className="form-floating mx-5">
                         <textarea className="form-control p-1" style={{ height: "130px", width: "800px" }} defaultValue={`{
@@ -100,7 +97,7 @@ export default class About extends React.PureComponent {
 }`} />
                     </div>
 
-                    <h5>Получить результат выполняемой задачи - это GET запрос на адрес /api/get_global_id/result?id=&#123;уникальный
+                    <h5>Получить результат выполняемой задачи - это GET запрос на адрес /api/1.0/get_global_id/result?id=&#123;уникальный
                     GUID полученный
             ранее&#125; </h5>
                     <div className="form-floating mx-5">
@@ -132,7 +129,7 @@ export default class About extends React.PureComponent {
                 </AboutSimpleText>
 
                 <AboutSimpleText header="API служебное">
-                    <h5>Получить список компонентов сервиса - это GET запрос на адрес /orponing_service/all_services</h5>
+                    <h5>Получить список компонентов сервиса - это GET запрос на адрес /api/1.0/orponing_service/all_services</h5>
                     <div className="form-floating mx-5">
                         <textarea className="form-control p-1" style={{ height: "400px", width: "800px" }} defaultValue={`[
     {
@@ -152,7 +149,7 @@ export default class About extends React.PureComponent {
 ]`} />
                     </div>
 
-                    <h5>Получить статус компонента - это GET запрос на адрес /orponing_service/status?service= &#123;id требуемого
+                    <h5>Получить статус компонента - это GET запрос на адрес /api/1.0/orponing_service/status?service= &#123;id требуемого
             компонента         &#125;</h5>
                     <div className="form-floating mx-5">
                         <textarea className="form-control p-1" style={{ height: "130px", width: "800px" }} defaultValue={`{
@@ -162,7 +159,7 @@ export default class About extends React.PureComponent {
 }`} />
                     </div>
 
-                    <h5>Запуск компонента - это GET запрос на адрес /orponing_service/ &#123;id требуемого компонента         &#125;/start</h5>
+                    <h5>Запуск компонента - это GET запрос на адрес /api/1.0/orponing_service/ &#123;id требуемого компонента         &#125;/start</h5>
                     <div className="form-floating mx-5">
                         <textarea className="form-control p-1" style={{ height: "130px", width: "800px" }} defaultValue={`{
         "message":"Мне недосуг",
@@ -171,16 +168,16 @@ export default class About extends React.PureComponent {
 }`} />
                     </div>
 
-                    <h5>Получить лог сервиса - это POST запрос на адрес /log</h5>
+                    <h5>Получить лог сервиса - это POST запрос на адрес /api/1.0/log</h5>
                     <div className="mx-5 mb-2">В ответ будет получен полный лог за текущий день простым текстом</div>
 
-                    <h5>Получить список фалов архива - это GET запрос на адрес /log/files</h5>
+                    <h5>Получить список фалов архива - это GET запрос на адрес /api/1.0/log/files</h5>
                     <div className="mx-5 mb-2">["2021-02-10.0","2021-02-11.0","2021-02-13.0","2021-02-14.0"]</div>
 
-                    <h5>Получить лог из архива - это GET запрос на адрес /log/read?file= &#123;имя требуемого файла&#125;</h5>
+                    <h5>Получить лог из архива - это GET запрос на адрес /api/1.0/log/read?file= &#123;имя требуемого файла&#125;</h5>
                     <div className="mx-5 mb-2">В ответ будет получен полный лог из указанного файла</div>
 
-                    <h5>Очистить архив логов - это GET запрос на адрес /log/clear?password= &#123;пароль от операции&#125;</h5>
+                    <h5>Очистить архив логов - это GET запрос на адрес /api/1.0/log/clear?password= &#123;пароль от операции&#125;</h5>
                     <div className="form-floating mx-5">
                         <textarea className="form-control p-1" style={{ height: "130px", width: "800px" }} defaultValue={`{
         "message":"Я все завершил. Я КрасафчеГ!",

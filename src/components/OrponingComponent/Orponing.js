@@ -24,9 +24,6 @@ export default class Orponing extends React.Component {
     }
 
     render() {
-        window.countRender++;
-        console.log("render Orponing");
-
         const lt = this.state.lastTab;
         return (
             <div className="container p-5 shadow-lg">
@@ -34,7 +31,7 @@ export default class Orponing extends React.Component {
 
                 <div className="container border border-primary mt-5">
                     <div className="tab-panel p-2">
-                        <TabControl onChangeTab={this.changeTab} lastTab={this.state.lastTab} />
+                        <TabControl onChangeTab={this.changeTab} lastTab={lt} />
 
                         <FormAddress notifyError={this.notifyError} hidden={lt != "tab-orponing-address"} />
                         <FormFile notifyError={this.notifyError} hidden={lt != "tab-orponing-file"} />

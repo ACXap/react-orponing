@@ -27,16 +27,13 @@ export default class OrponingService extends React.Component {
     }
 
     render() {
-        window.countRender++;
-        console.log("render OrponingService");
-
         const listComponent = this.state.listComponent.map((i, index) => <OrponingComponentItem item={i} key={index} />);
 
         return (
             <div className="container p-5 shadow-lg">
                 <HeaderPage header="Сервис Орпонизации" />
 
-                {this.state.processing ? <ProcessingOrponing message="Загрузка компонентов..." /> : ""}
+                {this.state.processing && <ProcessingOrponing message="Загрузка компонентов..." />}
                 <div className="row row-cols-md-3 g-4 text-center">
                     {listComponent}
                 </div>

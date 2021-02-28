@@ -18,12 +18,8 @@ export default class TabItem extends React.PureComponent {
     }
 
     render() {
-        window.countRender++;
-        console.log("render TabItem");
-        const cn = `btn btn-outline-primary mx-1 ${this.props.isActiveTab ? "active" : ""}`;
-
         return (
-            <button className={cn}
+            <button className={`btn btn-outline-primary mx-1 ${this.props.isActiveTab && "active"}`}
                 title={this.state.title} onClick={this.handleTabClick}>{this.state.name}</button>
         );
     }

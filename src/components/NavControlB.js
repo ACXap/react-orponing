@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom';
 
 export default class NavControlB extends React.PureComponent {
     render() {
-        window.countRender++;
-        console.log("render NavControlB");
-
         return (
             <Navbar bg="dark" variant="dark" fixed="top">
                 <Nav className="mr-auto">

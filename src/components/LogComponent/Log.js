@@ -72,9 +72,6 @@ export default class Log extends React.PureComponent {
     }
 
     render() {
-        window.countRender++;
-        console.log("render Log");
-
         const listLog = this.state.listHistory.map((i, index) => <LogItem item={i} onClickItem={this.clickItemLog} key={index} />);
 
         return (

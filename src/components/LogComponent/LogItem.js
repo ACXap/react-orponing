@@ -8,9 +8,6 @@ export default class LogItem extends React.PureComponent {
     }
 
     render() {
-        window.countRender++;
-        console.log("render LogItem");
-
         return (
             <button className="btn btn-outline-primary  m-2" type="button" onClick={this.onClickItem}>{this.item}</button>
         );

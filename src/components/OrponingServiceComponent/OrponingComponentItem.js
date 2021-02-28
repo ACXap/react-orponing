@@ -31,7 +31,6 @@ export default class OrponingComponentItem extends React.PureComponent {
             const result = await excute(this.state.id);
             this.setState({ processing: false, status: result.status, message: result.message, dateStatus: result.dateStatus });
         } catch (e) {
-            debugger
             this.setState({ processing: false, status: "ERROR", message: e.message, dateStatus: new Date() });
         }
     }
@@ -60,9 +59,6 @@ export default class OrponingComponentItem extends React.PureComponent {
     }
 
     render() {
-        window.countRender++;
-        console.log("render OrponingComponentItem");
-
         return (
             <div className="col">
                 <div className="card shadow p-3 mb-2">
@@ -71,7 +67,6 @@ export default class OrponingComponentItem extends React.PureComponent {
                             title={this.state.name} size="5x"
                             style={{ color: this.getColor(this.state.status) }} />
                     </div>
-
                     <div className="card-body">
                         <p className="card-text" title={this.state.description}>{this.state.name}</p>
                         <div>
@@ -89,15 +84,13 @@ export default class OrponingComponentItem extends React.PureComponent {
                                     onClick={this.clickSync}
                                     title="Обновить статус компонента" />
                             </div>
-                            {this.state.isStartable ? <div className="col-sm-6">
-                                <FontAwesomeIcon icon={faPlay} cursor="pointer"
-                                    onClick={this.clickStart}
-                                    title="Запустить компонент" />
-                            </div> : ""}
+                            {this.state.isStartable && <div className="col-sm-6">
+                                <FontAwesomeIcon icon={faPlay} cursor="pointer" onClick={this.clickStart} title="Запустить компонент" />
+                            </div>}
                         </div>
                     </div>
-                </div >
-            </div >
+                </div>
+            </div>
         );
     }
 }

@@ -74,9 +74,6 @@ export default class FormFile extends React.Component {
     }
 
     render() {
-        window.countRender++;
-        console.log("render FormFile");
-
         return (
             <div hidden={this.props.hidden}>
                 <div className="input-group p-5">

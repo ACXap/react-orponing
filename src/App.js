@@ -19,16 +19,10 @@ export default class App extends React.Component {
     createModal = (isShow, message, title) => ({ isShow, message, title });
 
     render() {
-        window.countRender++;
-        console.log("render app");
-
         const { isShow, message, title } = this.state.modal
         return (
             <React.Fragment>
-                {this.state.modal.isShow ? <Modal isShow={isShow}
-                    message={message}
-                    title={title}
-                    onClose={this.closeModal} /> : ""}
+                <Modal isShow={isShow} message={message} title={title} onClose={this.closeModal} />
 
                 <BrowserRouter>
                     <NavControlB />
