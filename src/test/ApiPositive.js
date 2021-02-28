@@ -34,9 +34,14 @@ export default class ApiPositive {
     }
 
     async apiOrponingAddress(address) {
-        if (address === "error") return { GlobalId: -1, AddressOrpon: "Error", IsValid: false, ParsingLevelCode: "Error", UnparsedParts: "TestParts", QualityCode: "TestCode", CheckStatus: "TestStatus", Error: "TestError" }
+        if (address === "0") return { GlobalId: -1, AddressOrpon: "Error", IsValid: false, ParsingLevelCode: "Error", UnparsedParts: "TestPartsError", QualityCode: "TestCodeError", CheckStatus: "TestStatuErrors", Error: "TestError" }
 
-        return { GlobalId: 12345678, AddressOrpon: "TestAddress", IsValid: true, ParsingLevelCode: "TestLevel", UnparsedParts: "TestParts", QualityCode: "TestCode", CheckStatus: "TestStatus" }
+        if (address === "3") {
+            await this.delay(2000);
+            return { GlobalId: 12345678, AddressOrpon: "TestAddress", IsValid: true, ParsingLevelCode: "TestLevel", UnparsedParts: "TestParts", QualityCode: "TestCode", CheckStatus: "TestStatus" }
+        }
+
+        return { GlobalId: 12345678, AddressOrpon: address, IsValid: true, ParsingLevelCode: "TestLevel", UnparsedParts: "TestParts", QualityCode: "TestCode", CheckStatus: "TestStatus" }
     }
 
     async apiOrponingListAddress(listAddress) {
@@ -79,5 +84,9 @@ export default class ApiPositive {
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi eligendi esse repudiandae consequuntur blanditiis ea aut neque doloribus odit exercitationem provident natus fuga, laborum nisi cupiditate enim eum fugiat tempore?
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi eligendi esse repudiandae consequuntur blanditiis ea aut neque doloribus odit exercitationem provident natus fuga, laborum nisi cupiditate enim eum fugiat tempore?
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi eligendi esse repudiandae consequuntur blanditiis ea aut neque doloribus odit exercitationem provident natus fuga, laborum nisi cupiditate enim eum fugiat tempore?`;
+    }
+
+    delay(delay) {
+        return new Promise(resolve => setTimeout(resolve, delay));
     }
 }
