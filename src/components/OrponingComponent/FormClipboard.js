@@ -15,7 +15,6 @@ export default class FormClipboard extends React.Component {
             previewList: serviceOrponingClipboard.getPreviewList() ?? [],
             resultFile: serviceOrponingClipboard.getResult() ?? ""
         }
-
         this.notifyError = props.notifyError;
         this.getResult = () => serviceOrponingClipboard.orponing();
         this.initListAddress = (data) => serviceOrponingClipboard.initListAddress(data);
@@ -48,9 +47,9 @@ export default class FormClipboard extends React.Component {
         return (
             <div hidden={this.props.hidden}>
                 <div className="d-flex p-5">
-                    <button className="btn btn-primary" type="button" disabled={this.state.processing}
+                    <button className="btn btn-primary" disabled={this.state.processing}
                         onClick={this.initList}>Вставить данные из буфера обмена</button>
-                    <button className="btn btn-primary ms-auto" type="button" disabled={this.state.processing}
+                    <button className="btn btn-primary ms-auto" disabled={this.state.processing}
                         onClick={this.orponing}>Орпонизируй меня полностью</button>
                 </div>
                 <div className="px-2">Всего записей: {this.state.countRow}</div>

@@ -1,41 +1,39 @@
+import validationPreviewListAddress from "./Validators/ValidationPreviewLiatAddress";
+import { convertStringToAddress } from "./Converters/ConverterAddress";
+
 export default class ServiceOrponing {
-    onAddTask = () => { console.warn("no listener onAddTask") };
+    _repository;
+    _listAddress = [];
+    _previewList = [];
+    _result = "";
+    _name = "";
 
-    constructor(api) {
-        this.api = api;
+    constructor(repository) {
+        this._repository = repository;
     }
 
-    async orponingListAddress(list, name) {
-        let idTask;
-        try {
-            idTask = await this.api.apiOrponingListAddress(list);
-            this.onAddTask({ status: "START", name: name, taskId: idTask, countRecord: list.length, dateStatus: new Date(), message: "" });
+    async orponing() {
+        this._result = "";
+        let error = "";
 
-            while (true) {
-                let result = await this.getStatus(idTask);
-                if (result.status === "COMPLETED") {
-                    result = await this.getResult(idTask);
-                    return { data: this.convertAddressInfoToString(result, list), error: null }
-                }
+        const result = await this._repository.orponingListAddress(this._listAddress, this._name);
+
+        if (result.data) {
+            try {
+                const dataFile = this._convertAddressInfoToString(result.data, this._listAddress);
+                this._result = dataFile;
+            } catch (e) {
+                error = e.message;
             }
-        } catch (e) {
-            return { data: "", error: e.message };
         }
+
+        this._previewList = [];
+        error = result.error;
+
+        return { error: error, countRow: this._listAddress.length, previewList: this._previewList, data: this._result }
     }
 
-    delay(delay) {
-        return new Promise(resolve => setTimeout(resolve, delay));
-    }
-
-    async getStatus(idTask) {
-        return await this.api.apiGetStatusTask(idTask);
-    }
-
-    async getResult(idTask) {
-        return await this.api.apiGetResultTask(idTask);
-    }
-
-    convertAddressInfoToString(addressInfo, list) {
+    _convertAddressInfoToString(addressInfo, list) {
         let dataForSave = "data:application/txt;charset=utf-8,%EF%BB%BF";
 
         const data = [];
@@ -45,29 +43,39 @@ export default class ServiceOrponing {
         });
 
         dataForSave += encodeURIComponent(data.join("\r\n"));
-
         return dataForSave;
     }
 
-    convertStringToAddress(data) {
-        const list = [];
-
-        if (data) {
-            const rows = data.split(/\r\n|\n/);
-
-            if (rows[0].split(";").length > 1) {
-                for (const row of rows) {
-                    const items = row.split(";");
-                    list.push({ Id: items[0], Address: items[1]?.trim() });
-                }
-            } else {
-                let index = 1;
-                for (const row of rows) {
-                    list.push({ Id: index++, Address: row?.trim() });
-                }
-            }
+    _initList(data) {
+        try {
+            this._listAddress = convertStringToAddress(data);
+            this._previewList = validationPreviewListAddress(this._listAddress.slice(0, 9));
+            return { count: this._listAddress.length, error: "", previewList: this._previewList };
+        } catch (e) {
+            this._restartState();
+            return { count: this._listAddress.length, error: e.message, previewList: this._previewList };
         }
+    }
 
-        return list;
+    _restartState() {
+        this._listAddress = [];
+        this._previewList = [];
+        this._result = "";
+    }
+
+    getResult() {
+        return this._result;
+    }
+    getCountRow() {
+        return this._listAddress.length;
+    }
+    getListAddress() {
+        return this._listAddress;
+    }
+    getPreviewList() {
+        return this._previewList;
+    }
+    getName() {
+        return this._name;
     }
 }
