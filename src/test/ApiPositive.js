@@ -3,6 +3,10 @@ export default class ApiPositive {
         this.BASE_URL = url;
     }
 
+    delay(delay) {
+        return new Promise(resolve => setTimeout(resolve, delay));
+    }
+
     async apiClearArchive(password) {
         if (password === "yes") return { status: "COMPLETED" }
         return { status: "ERROR", message: "Error password" }
@@ -17,7 +21,7 @@ export default class ApiPositive {
             { id: "service-test1", icon: "server", name: "Service1", description: "Test1" },
             { id: "service-test2", icon: "db", name: "Service2", description: "Test2" },
             { id: "service-test3", icon: "server", name: "Service3", description: "Test3" },
-            { id: "service-test3", icon: "server", name: "Service3", description: "Test3", isStartable: true }
+            { id: "service-test4", icon: "server", name: "Service4", description: "Test4", isStartable: true }
         ];
     }
 

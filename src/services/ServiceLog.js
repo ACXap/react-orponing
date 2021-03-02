@@ -18,8 +18,4 @@ export default class ServiceLog {
     async readLog(file) {
         return await this.api.apiGetLogFile(file);
     }
-
-    delay(delay) {
-        return new Promise(resolve => setTimeout(resolve, delay));
-    }
 }

@@ -3,11 +3,9 @@ import PropTypes from "prop-types";
 
 export default class Modal extends React.Component {
     render() {
-        if (!this.props.isShow) return null;
-
         return (
             <div>
-                <div className="modal" tabIndex="-1" style={{ display: this.props.isShow ? "block" : "none" }} >
+                <div className="modal" tabIndex="-1" style={{ display: this.props.isShow ? "block" : "none" }}>
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -17,7 +15,7 @@ export default class Modal extends React.Component {
                                 <p>{this.props.message}</p>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" onClick={this.props.onClose}>Закрыть</button>
+                                <button className="btn btn-secondary" onClick={this.props.onClose}>Закрыть</button>
                             </div>
                         </div>
                     </div>

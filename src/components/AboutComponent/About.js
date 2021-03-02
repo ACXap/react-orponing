@@ -62,6 +62,10 @@ export default class About extends React.PureComponent {
                         Данные должны иметь формат как и в предыдущем пункте, где мы орпонизировали файлы</p>
                 </AboutSimpleText>
 
+                <AboutSimpleText header="История">
+                    <p className="lead">В разделе "История" можно просмотреть все свои орпонизации файлов и буфера обмена, проверить их статус и скачать завершенные задачи</p>
+                </AboutSimpleText>
+
                 <AboutSimpleText header="API">
                     <h5>Орпонизация одиночного адреса - это GET запрос на адрес /api/1.0/get_globalid?address={`{требуемый адрес}`}</h5>
                     <div className="form-floating mx-5">

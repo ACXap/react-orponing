@@ -8,16 +8,13 @@ export default class OrponingComponentItem extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            name: props.item.name,
-            id: props.item.id,
-            icon: props.item.icon,
-            description: props.item.description,
-            isStartable: props.item.isStartable,
             status: "STOP",
             message: "",
             dateStatus: new Date().toLocaleString(),
             processing: true
         };
+
+        this.icon = this.getIcon(props.item.icon);
     }
 
     async componentDidMount() {
@@ -31,7 +28,7 @@ export default class OrponingComponentItem extends React.PureComponent {
             const result = await excute(this.state.id);
             this.setState({ processing: false, status: result.status, message: result.message, dateStatus: result.dateStatus });
         } catch (e) {
-            this.setState({ processing: false, status: "ERROR", message: e.message, dateStatus: new Date() });
+            this.setState({ processing: false, status: "ERROR", message: e.message, dateStatus: new Date().toLocaleString() });
         }
     }
 
@@ -43,14 +40,12 @@ export default class OrponingComponentItem extends React.PureComponent {
         if (this.state.processing) return;
         this.updateStatus((id) => serviceOrponingComponent.startService(id));
     }
-
     getIcon(icon) {
         if (icon === "server") return faServer;
         if (icon === "db") return faDatabase;
 
         return faServer;
     }
-
     getColor(status) {
         if (status === "START") return "green";
         if (status === "ERROR") return "red";
@@ -63,12 +58,12 @@ export default class OrponingComponentItem extends React.PureComponent {
             <div className="col">
                 <div className="card shadow p-3 mb-2">
                     <div className="m-5">
-                        <FontAwesomeIcon icon={this.getIcon(this.state.icon)}
-                            title={this.state.name} size="5x"
+                        <FontAwesomeIcon icon={this.icon}
+                            title={this.props.item.name} size="5x"
                             style={{ color: this.getColor(this.state.status) }} />
                     </div>
                     <div className="card-body">
-                        <p className="card-text" title={this.state.description}>{this.state.name}</p>
+                        <p className="card-text" title={this.props.description}>{this.props.item.name}</p>
                         <div>
                             <b>Статус: </b><span title={this.state.status}>{this.state.message}</span>
                             <br />
@@ -84,7 +79,7 @@ export default class OrponingComponentItem extends React.PureComponent {
                                     onClick={this.clickSync}
                                     title="Обновить статус компонента" />
                             </div>
-                            {this.state.isStartable && <div className="col-sm-6">
+                            {this.props.item.isStartable && <div className="col-sm-6">
                                 <FontAwesomeIcon icon={faPlay} cursor="pointer" onClick={this.clickStart} title="Запустить компонент" />
                             </div>}
                         </div>

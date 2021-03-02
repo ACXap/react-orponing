@@ -26,7 +26,7 @@ export default class Log extends React.PureComponent {
     }
 
     componentDidUpdate() {
-        this.textLog.current.scrollTop = this.textLog.current.scrollHeight;;
+        this.textLog.current.scrollTop = this.textLog.current.scrollHeight;
     }
 
     init = async () => {
@@ -43,6 +43,7 @@ export default class Log extends React.PureComponent {
 
     clearArchive = async () => {
         if (this.state.processing) return;
+
         const password = window.prompt("Укажите пароль для операции:");
         if (!password) return;
 
@@ -51,7 +52,7 @@ export default class Log extends React.PureComponent {
         try {
             const result = await serviceLog.clearArchive(password);
             if (result.status != "COMPLETED") throw new Error(result.message);
-            this.setState({ listHistory: [], processing: false });
+            this.init();
         } catch (e) {
             this.setState({ processing: false });
             this.notifyError(e.message, "Ошибка очистки логов");
@@ -60,6 +61,7 @@ export default class Log extends React.PureComponent {
 
     clickItemLog = async (log) => {
         if (this.state.processing) return;
+
         this.setState({ processing: true });
 
         try {
@@ -81,7 +83,7 @@ export default class Log extends React.PureComponent {
                     <div className="row p-2">
                         <div className="col-sm-10 px-1 d-flex align-items-center justify-content-center">
                             <textarea className="form-control p-2" ref={this.textLog} defaultValue={this.state.log} style={{ height: "600px", minHeight: "600px" }} />
-                            {this.state.processing ? <div className="position-absolute"><ProcessingOrponing message="Обработка запроса..." /></div> : ""}
+                            {this.state.processing && <div className="position-absolute"><ProcessingOrponing message="Обработка запроса..." /></div>}
                         </div>
                         <div className="col-sm-2 px-1 border d-flex flex-column">
                             <div className="text-center pt-2">

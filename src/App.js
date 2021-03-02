@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, BrowserRouter, Redirect } from "react-router-dom";
+import { Route, BrowserRouter } from "react-router-dom";
 
 import Orponing from "./components/OrponingComponent/Orponing";
 import About from "./components/AboutComponent/About";
@@ -22,7 +22,7 @@ export default class App extends React.Component {
         const { isShow, message, title } = this.state.modal
         return (
             <React.Fragment>
-                <Modal isShow={isShow} message={message} title={title} onClose={this.closeModal} />
+                {isShow && <Modal isShow={isShow} message={message} title={title} onClose={this.closeModal} />}
 
                 <BrowserRouter>
                     <NavControlB />
