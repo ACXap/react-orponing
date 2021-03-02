@@ -54,7 +54,7 @@ export default class About extends React.PureComponent {
                             </tr>
                         </tbody>
                     </table>
-                    <p className="lead"> Идентификатор должен быть целочисленным числом, уникальным для каждого адреса.</p>
+                    <p className="lead"> <b>Идентификатор должен быть целочисленным числом, <i>уникальным</i> для каждого адреса.</b></p>
                 </AboutSimpleText>
 
                 <AboutSimpleText header="Орпонизация буфера обмена">
@@ -101,8 +101,13 @@ export default class About extends React.PureComponent {
                     GUID полученный
             ранее&#125; </h5>
                     <div className="form-floating mx-5">
-                        <textarea className="form-control p-1" style={{ height: "620px", width: "800px" }} defaultValue={`[
-    {
+                        <textarea className="form-control p-1" style={{ height: "470px", width: "800px" }} defaultValue={`[
+    { 
+        RequestAddress: {
+            "Id":1,
+            "Address":"Новосибирск Зорге1"
+        }, 
+        ResponseAddress: {
             Id: 1,
             GlobalId: 21904819,
             ParsingLevelCode: "FIAS_HOUSE",
@@ -112,17 +117,7 @@ export default class About extends React.PureComponent {
             IsValid: true,
             Error: null,
             AddressOrpon: "630088, Новосибирская обл, Новосибирск г., Зорге ул., дом 1"
-    },
-    {
-            "Id":2,
-            "GlobalId":-1,
-            "ParsingLevelCode":null,
-            "UnparsedParts":null,
-            "QualityCode":null,
-            "CheckStatus":null,
-            "IsValid":false,
-            "Error":"Client received SOAP Fault from server: WsSearchAddrElByFullNamePortTypeImpl ошибка: #PON_0051 Please see the server log to find more detail regarding exact cause of the failure.",
-            "AddressOrpon":null
+        }
     }
 ]`} />
                     </div>

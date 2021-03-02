@@ -1,5 +1,6 @@
 import validationPreviewListAddress from "./Validators/ValidationPreviewLiatAddress";
-import { convertStringToAddress } from "./Converters/ConverterAddress";
+import { convertStringToAddress, convertAddressInfoToString } from "./Converters/ConverterAddress";
+import { createPlainTextFile } from "./WorkFiles/CreateFiles";
 
 export default class ServiceOrponing {
     _repository;
@@ -20,7 +21,9 @@ export default class ServiceOrponing {
 
         if (result.data) {
             try {
-                const dataFile = this._convertAddressInfoToString(result.data, this._listAddress);
+                const list = convertAddressInfoToString(result.data);
+                const dataFile = createPlainTextFile(list);
+
                 this._result = dataFile;
             } catch (e) {
                 error = e.message;
@@ -31,19 +34,6 @@ export default class ServiceOrponing {
         error = result.error;
 
         return { error: error, countRow: this._listAddress.length, previewList: this._previewList, data: this._result }
-    }
-
-    _convertAddressInfoToString(addressInfo, list) {
-        let dataForSave = "data:application/txt;charset=utf-8,%EF%BB%BF";
-
-        const data = [];
-        data.push("id;Address;GlobalId;AddressOrpon;ParsingLevelCode;QualityCode;UnparsedParts;Error");
-        addressInfo.forEach(el => {
-            data.push(`${el.Id};${list.find(e => e.Id == el.Id).Address};${el.GlobalId ?? ""};${el.AddressOrpon ?? ""};${el.ParsingLevelCode ?? ""};${el.QualityCode ?? ""};${el.UnparsedParts ?? ""};${el.Error ?? ""}`);
-        });
-
-        dataForSave += encodeURIComponent(data.join("\r\n"));
-        return dataForSave;
     }
 
     _initList(data) {

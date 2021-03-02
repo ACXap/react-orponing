@@ -20,4 +20,14 @@ const convertStringToAddress = (data) => {
     return list;
 }
 
-export { convertStringToAddress }
+const convertAddressInfoToString = (addressInfo) => {
+    const data = ["id;Address;GlobalId;AddressOrpon;ParsingLevelCode;QualityCode;UnparsedParts;Error"];
+    addressInfo.forEach(el => {
+        const resp = el.ResponseAddress;
+        data.push(`${el.RequestAddress.Id}; ${el.RequestAddress.Address}; ${resp.GlobalId ?? ""}; ${resp.AddressOrpon ?? ""}; ${resp.ParsingLevelCode ?? ""}; ${resp.QualityCode ?? ""}; ${resp.UnparsedParts ?? ""}; ${resp.Error ?? ""} `);
+    });
+
+    return data;
+}
+
+export { convertStringToAddress, convertAddressInfoToString }

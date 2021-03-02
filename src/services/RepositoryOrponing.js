@@ -1,5 +1,6 @@
 export default class RepositoryOrponing {
     onAddTask = () => { console.warn("no listener onAddTask") };
+    delayGetStatus = 5000;
 
     constructor(api) {
         this.api = api;
@@ -14,6 +15,8 @@ export default class RepositoryOrponing {
             this.onAddTask({ status: "START", name: name, taskId: idTask, countRecord: list.length, dateStatus: new Date(), message: "" });
 
             while (true) {
+                await this.delay(this.delayGetStatus);
+
                 let result = await this.getStatus(idTask);
                 if (result.status === "COMPLETED") {
                     result = await this.getResult(idTask);
