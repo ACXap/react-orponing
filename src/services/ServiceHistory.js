@@ -1,4 +1,4 @@
-import { convertStringToAddress, convertAddressInfoToString } from "./Converters/ConverterAddress";
+import { convertAddressInfoToString } from "./Converters/ConverterAddress";
 import { createPlainTextFile } from "./WorkFiles/CreateFiles";
 
 export default class ServiceHistory {
