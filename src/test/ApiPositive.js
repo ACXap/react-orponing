@@ -53,6 +53,7 @@ export default class ApiPositive {
     }
 
     async apiGetStatusTask(id) {
+        await this.delay(5000);
         return { status: "COMPLETED", message: "Завершено", dateStatus: new Date() }
     }
 
