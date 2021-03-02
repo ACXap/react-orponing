@@ -4,7 +4,6 @@ import { serviceOrponingFile } from "../../init";
 import ProcessingOrponing from "../ProcessingOrponing";
 import FileResult from "./FileResult";
 import PreviewOrponing from "./Preview/PreviewOrponing";
-import ServiceOrponingFile from './../../services/ServiceOrponingFile';
 
 export default class FormFile extends React.Component {
     constructor(props) {

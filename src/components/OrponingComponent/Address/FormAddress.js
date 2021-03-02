@@ -15,6 +15,14 @@ export default class FormAddress extends React.Component {
 
         this.notifyError = props.notifyError;
         this.getResult = (adr) => serviceOrponingAddress.orponing(adr);
+        this.inputAddress = React.createRef();
+    }
+
+    componentDidUpdate() {
+        this.inputAddress.current.focus();
+    }
+    componentDidMount() {
+        this.inputAddress.current.focus();
     }
 
     handleClickKey = (e) => {
@@ -45,7 +53,7 @@ export default class FormAddress extends React.Component {
         return (
             <div hidden={this.props.hidden}>
                 <div className="input-group p-5">
-                    <input className="form-control" disabled={this.state.processing} placeholder="Адрес" value={this.state.requestAddress}
+                    <input className="form-control" disabled={this.state.processing} placeholder="Адрес" value={this.state.requestAddress} ref={this.inputAddress}
                         onKeyDown={this.handleClickKey}
                         onChange={this.setAddress} />
                     <button className="btn btn-primary" disabled={this.state.processing}
