@@ -26,7 +26,7 @@ export default class FormClipboard extends React.Component {
         this.setState({ processing: true });
         const result = await this.getResult();
         if (result.error) this.notifyError(result.error, "Ошибка орпонизации адресов");
-        this.setState({ resultFile: result.data, previewList: result.previewList, countRow: result.countRow, processing: false })
+        this.setState({ resultFile: result.data, previewList: result.previewList, countRow: result.countRow, processing: false });
     }
 
     initList = async () => {
