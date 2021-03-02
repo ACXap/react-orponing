@@ -50,10 +50,10 @@ export default class ServiceOrponing {
         try {
             this._listAddress = convertStringToAddress(data);
             this._previewList = validationPreviewListAddress(this._listAddress.slice(0, 9));
-            return { count: this._listAddress.length, error: "", previewList: this._previewList };
+            return { count: this._listAddress.length, error: "", previewList: this._previewList, name: this._name };
         } catch (e) {
             this._restartState();
-            return { count: this._listAddress.length, error: e.message, previewList: this._previewList };
+            return { count: this._listAddress.length, error: e.message, previewList: this._previewList, name: this._name };
         }
     }
 

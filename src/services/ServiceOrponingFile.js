@@ -3,6 +3,7 @@ import { readFileAnyEncoding } from "./WorkFiles/ReadPlainText";
 
 export default class ServiceOrponingFile extends ServiceOrponing {
     _files;
+    _name = "file.csv";
 
     async initListAddress(files) {
         const file = files[0];

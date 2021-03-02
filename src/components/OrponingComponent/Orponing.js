@@ -32,7 +32,6 @@ export default class Orponing extends React.Component {
                 <div className="container border border-primary mt-5">
                     <div className="tab-panel p-2">
                         <TabControl onChangeTab={this.changeTab} lastTab={lt} />
-
                         <FormAddress notifyError={this.notifyError} hidden={lt != "tab-orponing-address"} />
                         <FormFile notifyError={this.notifyError} hidden={lt != "tab-orponing-file"} />
                         <FormClipboard notifyError={this.notifyError} hidden={lt != "tab-orponing-clipboard"} />
