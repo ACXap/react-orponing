@@ -1,10 +1,13 @@
+import { convertStringToAddress, convertAddressInfoToString } from "./Converters/ConverterAddress";
+import { createPlainTextFile } from "./WorkFiles/CreateFiles";
+
 export default class ServiceHistory {
-    serviceOrponing;
+    repositoryOrponing;
     onUpdateHistory = () => { console.warn("no listener onUpdateHistory") };
 
-    constructor(serviceOrponing) {
-        this.serviceOrponing = serviceOrponing;
-        this.serviceOrponing.onAddTask = (task) => this.addTask(task);
+    constructor(repositoryOrponing) {
+        this.repositoryOrponing = repositoryOrponing;
+        this.repositoryOrponing.onAddTask = (task) => this.addTask(task);
     }
 
     addTask(task) {
@@ -27,6 +30,15 @@ export default class ServiceHistory {
         }
     }
 
+    async downloadTask(taskId) {
+
+        const data = await this.repositoryOrponing.getResult(taskId);
+        const list = convertAddressInfoToString(data);
+        const dataFile = createPlainTextFile(list);
+
+        return dataFile;
+    }
+
     getHistory() {
         return JSON.parse(window.localStorage.getItem("history")) ?? [];
     }
@@ -47,7 +59,7 @@ export default class ServiceHistory {
     async updateStatusTask(taskId) {
         this.updateTask(taskId, { status: "START", message: "", dateStatus: new Date() });
         try {
-            const status = await this.serviceOrponing.getStatus(taskId);
+            const status = await this.repositoryOrponing.getStatus(taskId);
             this.updateTask(taskId, status);
         } catch (e) {
             this.updateTask(taskId, { status: "ERROR", message: e.message, dateStatus: new Date() });

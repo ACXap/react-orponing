@@ -26,8 +26,17 @@ export default class History extends React.PureComponent {
         serviceHistory.updateStatusTask(id);
     }
 
+    async downloadItem(id) {
+        const data = await serviceHistory.downloadTask(id);
+        const a = document.createElement("a");
+        a.download = "history.csv";
+        a.href = data;
+        a.click();
+    }
+
     render() {
         const listItem = this.state.listHistory.map((i) => <HistoryItem item={i} key={i.taskId}
+            onDownload={this.downloadItem}
             onUpdate={this.updateItem}
             onRemove={this.removeItem} />);
 

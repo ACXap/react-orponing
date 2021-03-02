@@ -20,15 +20,11 @@ export default class HistoryItem extends React.Component {
         this.notifyError = props.notifyError;
         this.onRemove = () => props.onRemove(i.taskId);
         this.onUpdate = props.onUpdate;
+        this.onDownload = () => props.onDownload(i.taskId);
     }
 
     componentDidUpdate() {
         if (this.props.item.status != "START" && this.state.processing) this.setState({ processing: false });
-    }
-
-    onDownload() {
-        if (this.state.processing) return;
-        console.log(this.state.id);
     }
 
     update = () => {
