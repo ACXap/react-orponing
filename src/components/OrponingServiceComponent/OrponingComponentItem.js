@@ -25,7 +25,7 @@ export default class OrponingComponentItem extends React.PureComponent {
         this.setState({ processing: true });
 
         try {
-            const result = await excute(this.state.id);
+            const result = await excute(this.props.item.id);
             this.setState({ processing: false, status: result.status, message: result.message, dateStatus: result.dateStatus });
         } catch (e) {
             this.setState({ processing: false, status: "ERROR", message: e.message, dateStatus: new Date().toLocaleString() });
@@ -63,7 +63,7 @@ export default class OrponingComponentItem extends React.PureComponent {
                             style={{ color: this.getColor(this.state.status) }} />
                     </div>
                     <div className="card-body">
-                        <p className="card-text" title={this.props.description}>{this.props.item.name}</p>
+                        <p className="card-text" title={this.props.item.description}>{this.props.item.name}</p>
                         <div>
                             <b>Статус: </b><span title={this.state.status}>{this.state.message}</span>
                             <br />

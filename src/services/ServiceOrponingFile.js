@@ -8,6 +8,7 @@ export default class ServiceOrponingFile extends ServiceOrponing {
     async initListAddress(files) {
         const file = files[0];
         this._files = files;
+        this._name = files[0].name;
 
         try {
             if (!this.isValidFile(file)) throw new Error(!file ? "А кто файл то будет добавлять?" : "Неверный тип файла. Допускается только *.txt и *.csv");
