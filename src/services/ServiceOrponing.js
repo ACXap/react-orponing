@@ -1,6 +1,6 @@
 import validationPreviewListAddress from "./Validators/ValidationPreviewLiatAddress";
-import { convertStringToAddress, convertAddressInfoToString } from "./Converters/ConverterAddress";
-import { createPlainTextFile } from "./WorkFiles/CreateFiles";
+import { convertAddressInfoToString } from "./Converters/ConverterAddress";
+import { createPlainTextFile } from "./WorkFiles/CreateFile";
 
 export default class ServiceOrponing {
     _repository;
@@ -38,7 +38,7 @@ export default class ServiceOrponing {
 
     _initList(data) {
         try {
-            this._listAddress = convertStringToAddress(data);
+            this._listAddress = data;
             this._previewList = validationPreviewListAddress(this._listAddress.slice(0, 9));
             return { count: this._listAddress.length, error: "", previewList: this._previewList, name: this._name };
         } catch (e) {
