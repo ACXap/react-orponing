@@ -31,7 +31,6 @@ export default class ServiceHistory {
     }
 
     async downloadTask(taskId) {
-
         const data = await this.repositoryOrponing.getResult(taskId);
         const list = convertAddressInfoToString(data);
         const dataFile = createPlainTextFile(list);

@@ -4,7 +4,8 @@ export default class ServiceOrponingComponent {
     }
 
     async getListServices() {
-        return await this.api.apiGetListServices();
+        const list = await this.api.apiGetListServices();
+        return list.sort((a, b) => a.index - b.index);
     }
 
     async getStatusService(id) {
